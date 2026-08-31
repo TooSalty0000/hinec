@@ -1,0 +1,2910 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="HIgh-order NEural Connectivity — dMRI Tractography Pipeline">
+      
+      
+        <meta name="author" content="HINEC Team">
+      
+      
+      
+        <link rel="prev" href="../DISTRIBUTED_WORKFLOW/">
+      
+      
+        <link rel="next" href="../VALIDATION_USAGE/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>ISMRM Scoring - HINEC Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ismrm-2015-tractography-challenge-scoring-analysis" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="HINEC Documentation" class="md-header__button md-logo" aria-label="HINEC Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HINEC Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              ISMRM Scoring
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../USER_GUIDE/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Getting Started
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../PIPELINE/" class="md-tabs__link">
+          
+  
+  
+  Pipeline
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../TRACTOGRAPHY/" class="md-tabs__link">
+          
+  
+  
+  Tractography
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../YAML_CONFIG/" class="md-tabs__link">
+          
+  
+  
+  Configuration
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../VISUALIZATION_GUIDE/" class="md-tabs__link">
+          
+  
+  
+  Visualization
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Validation & Benchmarks
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../API_REFERENCE/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../PRD_FastTractographySliceViewer/" class="md-tabs__link">
+          
+  
+  
+  Misc
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="HINEC Documentation" class="md-nav__button md-logo" aria-label="HINEC Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    HINEC Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../USER_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pipeline
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PIPELINE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PREPROCESSING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preprocessing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RUN_DIRECTORY_SYSTEM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run Directory System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tractography
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tractography
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TRACTOGRAPHY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tractography
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../High_Order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    High-Order Methods
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RKF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RKF45 Adaptive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RKF_Usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RKF45 Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SEEDING_STRATEGY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Seeding Strategy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hinec_tractography/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../YAML_CONFIG/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    YAML Config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CHANGELOG_YAML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visualization
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Visualization
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VISUALIZATION_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visualization Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../REGION_VISUALIZATION_EXAMPLES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Region Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DISTRIBUTED_WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distributed Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation & Benchmarks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Validation & Benchmarks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISMRM Scoring
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISMRM Scoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Structure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ground-truth-bundles-bundles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ground Truth Bundles (bundles/)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roi-masks-roi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ROI Masks (ROI/)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Files
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#config_file_segmentationjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        config_file_segmentation.json
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#config_file_tractometryjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        config_file_tractometry.json
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scoring-methodology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scoring Methodology
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Scoring Methodology">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#two-scoring-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Two Scoring Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Two Scoring Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-roi-based-scoring-segmentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. ROI-Based Scoring (Segmentation)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-recobundles-scoring-bundle-recognition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. RecoBundles Scoring (Bundle Recognition)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evaluation-metrics-typical" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation Metrics (Typical)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#critical-file-format-warning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Critical File Format Warning
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Critical File Format Warning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-this-means" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What This Means
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#impact-on-hinec-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Impact on HINEC Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-use-ismrm-scoring-with-hinec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to Use ISMRM Scoring with HINEC
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How to Use ISMRM Scoring with HINEC">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-1-convert-hinec-tracks-to-trk-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 1: Convert HINEC Tracks to TRK Format
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-2-use-python-scoring-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 2: Use Python Scoring Script
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-3-adapt-ismrm-scoring-for-hinec-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 3: Adapt ISMRM Scoring for HINEC Format
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-coordinate-alignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing Coordinate Alignment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recommendations-for-hinec-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommendations for HINEC Pipeline
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Recommendations for HINEC Pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#immediate-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Immediate Actions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medium-term-improvements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Medium-term Improvements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#long-term-goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Long-term Goals
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-differences-hinec-vs-ismrm-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Differences: HINEC vs ISMRM Format
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scoring-accuracy-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scoring Accuracy Assessment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Scoring Accuracy Assessment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#strengths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strengths
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validation-against-other-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation Against Other Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VALIDATION_USAGE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../IRONTRACT_WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IronTract Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API_REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MATHEMATICAL_FOUNDATIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mathematical Foundations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SCIENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Science Background
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Misc
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Misc
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PRD_FastTractographySliceViewer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast Viewer PRD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../STRING_CHAR_FIXES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String/Char Fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../presentation_outline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Presentation Outline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Structure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ground-truth-bundles-bundles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ground Truth Bundles (bundles/)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roi-masks-roi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ROI Masks (ROI/)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Files
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#config_file_segmentationjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        config_file_segmentation.json
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#config_file_tractometryjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        config_file_tractometry.json
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scoring-methodology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scoring Methodology
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Scoring Methodology">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#two-scoring-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Two Scoring Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Two Scoring Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-roi-based-scoring-segmentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. ROI-Based Scoring (Segmentation)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-recobundles-scoring-bundle-recognition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. RecoBundles Scoring (Bundle Recognition)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evaluation-metrics-typical" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation Metrics (Typical)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#critical-file-format-warning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Critical File Format Warning
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Critical File Format Warning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-this-means" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What This Means
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#impact-on-hinec-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Impact on HINEC Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-use-ismrm-scoring-with-hinec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to Use ISMRM Scoring with HINEC
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How to Use ISMRM Scoring with HINEC">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-1-convert-hinec-tracks-to-trk-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 1: Convert HINEC Tracks to TRK Format
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-2-use-python-scoring-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 2: Use Python Scoring Script
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-3-adapt-ismrm-scoring-for-hinec-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 3: Adapt ISMRM Scoring for HINEC Format
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-coordinate-alignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing Coordinate Alignment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recommendations-for-hinec-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommendations for HINEC Pipeline
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Recommendations for HINEC Pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#immediate-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Immediate Actions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medium-term-improvements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Medium-term Improvements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#long-term-goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Long-term Goals
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-differences-hinec-vs-ismrm-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Differences: HINEC vs ISMRM Format
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scoring-accuracy-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scoring Accuracy Assessment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Scoring Accuracy Assessment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#strengths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strengths
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validation-against-other-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation Against Other Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="ismrm-2015-tractography-challenge-scoring-analysis">ISMRM 2015 Tractography Challenge Scoring Analysis<a class="headerlink" href="#ismrm-2015-tractography-challenge-scoring-analysis" title="Permanent link">&para;</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>The ISMRM scoring data provides <strong>ground truth tractography</strong> for validating fiber tracking algorithms. Based on analysis of <code>scoring_data_Renauld2023/</code>.</p>
+<h2 id="data-structure">Data Structure<a class="headerlink" href="#data-structure" title="Permanent link">&para;</a></h2>
+<h3 id="ground-truth-bundles-bundles">Ground Truth Bundles (<code>bundles/</code>)<a class="headerlink" href="#ground-truth-bundles-bundles" title="Permanent link">&para;</a></h3>
+<p><strong>Format</strong>: TrackVis <code>.trk</code> files (binary streamline format)</p>
+<p><strong>22 Major White Matter Bundles</strong>:</p>
+<ul>
+<li>
+<p><strong>Commissural</strong>: CA, CC, CP, MCP (corpus callosum variants)</p>
+</li>
+<li>
+<p><strong>Association</strong>: Cingulum (L/R), ILF (L/R), OR (L/R), SLF (L/R), UF (L/R)</p>
+</li>
+<li>
+<p><strong>Projection</strong>: BPS (L/R), ICP (L/R), SCP (L/R)</p>
+</li>
+<li>
+<p><strong>Special</strong>: Fornix</p>
+</li>
+</ul>
+<p><strong>Bundle Statistics</strong> (from file sizes):
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Largest bundles:
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>- Cingulum_right: 29.4 MB (~30K streamlines)
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>- OR_right: 9.8 MB (~10K streamlines)
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>- MCP: 30.3 MB (~31K streamlines)
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>- CC: 24.2 MB (~25K streamlines)
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>Smallest bundles:
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>- CP: 331 KB (~340 streamlines)
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>- CA: 526 KB (~540 streamlines)
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>- Fornix: 4.1 MB (~4K streamlines)
+</code></pre></div></p>
+<h3 id="roi-masks-roi">ROI Masks (<code>ROI/</code>)<a class="headerlink" href="#roi-masks-roi" title="Permanent link">&para;</a></h3>
+<p><strong>Purpose</strong>: Define anatomical constraints for bundle segmentation</p>
+<p><strong>Three types of masks</strong>:</p>
+<ol>
+<li>
+<p><strong><code>all_masks/</code></strong> (26 files): All streamlines must pass through these regions</p>
+<ul>
+<li>Example: <code>CA.nii.gz</code>, <code>CC_temporal.nii.gz</code>, <code>Fornix.nii.gz</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>any_masks/</code></strong> (4 files): At least one streamline point must intersect</p>
+<ul>
+<li>Used for loose inclusion criteria</li>
+<li>Example: <code>MCP_any_mask.nii.gz</code>, <code>ICP_left_any_mask.nii.gz</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>endpoints/</code></strong> (45 files): Start/end regions for streamlines</p>
+<ul>
+<li><code>*_head.nii.gz</code>: Starting points</li>
+<li><code>*_tail.nii.gz</code>: Ending points</li>
+<li>Shared endpoints: <code>brainstem.nii.gz</code>, <code>occipital_left.nii.gz</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="configuration-files">Configuration Files<a class="headerlink" href="#configuration-files" title="Permanent link">&para;</a></h3>
+<h4 id="config_file_segmentationjson"><code>config_file_segmentation.json</code><a class="headerlink" href="#config_file_segmentationjson" title="Permanent link">&para;</a></h4>
+<p><strong>Purpose</strong>: ROI-based bundle segmentation rules</p>
+<p><strong>Structure per bundle</strong>:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">"bundle_name"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">"all_mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path/to/required_mask.nii.gz"</span><span class="p">,</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nt">"any_mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path/to/inclusion_mask.nii.gz"</span><span class="p">,</span><span class="w">  </span><span class="c1">// Optional</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="nt">"head"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path/to/start_region.nii.gz"</span><span class="p">,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="nt">"tail"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path/to/end_region.nii.gz"</span><span class="p">,</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="nt">"length"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">mi</span><span class="kc">n</span><span class="p">,</span><span class="w"> </span><span class="err">max</span><span class="p">],</span><span class="w">  </span><span class="c1">// mm, optional</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="nt">"length_x"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">mi</span><span class="kc">n</span><span class="p">,</span><span class="w"> </span><span class="err">max</span><span class="p">],</span><span class="w">  </span><span class="c1">// X-axis constraints, optional</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="nt">"length_y"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">mi</span><span class="kc">n</span><span class="p">,</span><span class="w"> </span><span class="err">max</span><span class="p">],</span><span class="w">  </span><span class="c1">// Y-axis constraints, optional</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="nt">"length_x_abs"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">mi</span><span class="kc">n</span><span class="p">,</span><span class="w"> </span><span class="err">max</span><span class="p">]</span><span class="w">  </span><span class="c1">// |X| constraints, optional</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Example - Corpus Callosum U-shaped</strong>:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">"CC_u_shaped"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nt">"all_mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ROI/all_masks/CC_u_shaped.nii.gz"</span><span class="p">,</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nt">"any_mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ROI/any_masks/CC_u_shaped_inclusion_mask.nii.gz"</span><span class="p">,</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nt">"head"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ROI/endpoints/CC_striatal_left.nii.gz"</span><span class="p">,</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="nt">"tail"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ROI/endpoints/CC_striatal_right.nii.gz"</span><span class="p">,</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="nt">"length"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">70</span><span class="p">,</span><span class="w"> </span><span class="mi">1000</span><span class="p">],</span><span class="w">      </span><span class="c1">// 70-1000mm total length</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="nt">"length_y"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">32</span><span class="p">],</span><span class="w">        </span><span class="c1">// Max 32mm anterior extent</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="nt">"length_x_abs"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">35</span><span class="p">,</span><span class="w"> </span><span class="mi">1000</span><span class="p">]</span><span class="w">  </span><span class="c1">// Must span &gt;35mm laterally</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Geometric Constraints</strong> (7 bundles use these):</p>
+<ul>
+<li>
+<p><code>length</code>: Total streamline length in mm</p>
+</li>
+<li>
+<p><code>length_x</code>, <code>length_y</code>, <code>length_z</code>: Extent in specific axes</p>
+</li>
+<li>
+<p><code>length_x_abs</code>: Absolute X-axis span (for bilateral bundles)</p>
+</li>
+</ul>
+<h4 id="config_file_tractometryjson"><code>config_file_tractometry.json</code><a class="headerlink" href="#config_file_tractometryjson" title="Permanent link">&para;</a></h4>
+<p><strong>Purpose</strong>: Map bundle names to ground truth files for tractometry analysis</p>
+<p><strong>Structure</strong>:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">"bundle_name"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="nt">"gt_mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bundles/bundle_name.trk"</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="p">}</span>
+</code></pre></div></p>
+<p>Simpler format - just links each bundle to its ground truth <code>.trk</code> file.</p>
+<h2 id="scoring-methodology">Scoring Methodology<a class="headerlink" href="#scoring-methodology" title="Permanent link">&para;</a></h2>
+<h3 id="two-scoring-methods">Two Scoring Methods<a class="headerlink" href="#two-scoring-methods" title="Permanent link">&para;</a></h3>
+<h4 id="1-roi-based-scoring-segmentation">1. ROI-Based Scoring (Segmentation)<a class="headerlink" href="#1-roi-based-scoring-segmentation" title="Permanent link">&para;</a></h4>
+<p><strong>Method</strong>: Filter user tractography using anatomical ROI constraints</p>
+<p><strong>Process</strong>:</p>
+<ol>
+<li>Load user's whole-brain tractography</li>
+<li>Apply ROI constraints from <code>config_file_segmentation.json</code>:<ul>
+<li>Keep only streamlines passing through <strong>all</strong> required masks</li>
+<li>Keep only streamlines with at least one point in <strong>any</strong> masks</li>
+<li>Keep only streamlines with endpoints in head/tail regions</li>
+<li>Apply geometric length constraints</li>
+</ul>
+</li>
+<li>Compare filtered user tracks to ground truth</li>
+<li>Compute metrics (see below)</li>
+</ol>
+<p><strong>Advantages</strong>:</p>
+<ul>
+<li>Tests anatomical accuracy of streamlines</li>
+<li>Evaluates tractography algorithm's ability to follow known pathways</li>
+<li>Robust to seeding strategy differences</li>
+</ul>
+<p><strong>Disadvantages</strong>:</p>
+<ul>
+<li>Requires precise ROI mask alignment</li>
+<li>Sensitive to coordinate system errors (see warning below)</li>
+</ul>
+<h4 id="2-recobundles-scoring-bundle-recognition">2. RecoBundles Scoring (Bundle Recognition)<a class="headerlink" href="#2-recobundles-scoring-bundle-recognition" title="Permanent link">&para;</a></h4>
+<p><strong>Method</strong>: Use machine learning to identify bundles in user tractography</p>
+<p><strong>Process</strong>:</p>
+<ol>
+<li>Load ground truth bundles as training data</li>
+<li>Use RecoBundles algorithm to find similar streamlines in user tractography</li>
+<li>Compare recognized bundles to ground truth</li>
+<li>Compute metrics</li>
+</ol>
+<p><strong>Advantages</strong>:</p>
+<ul>
+<li>More forgiving of ROI misalignment</li>
+<li>Tests bundle recognition capability</li>
+<li>Simulates clinical bundle identification workflow</li>
+</ul>
+<p><strong>Disadvantages</strong>:</p>
+<ul>
+<li>Requires Dipy RecoBundles implementation</li>
+<li>Less direct test of anatomical accuracy</li>
+</ul>
+<h3 id="evaluation-metrics-typical">Evaluation Metrics (Typical)<a class="headerlink" href="#evaluation-metrics-typical" title="Permanent link">&para;</a></h3>
+<p>Based on standard tractometry evaluation:</p>
+<ol>
+<li><strong>Valid Bundles (VB)</strong>: % of submitted bundles passing validity checks</li>
+<li><strong>Valid Connections (VC)</strong>: % of correct endpoint connections</li>
+<li><strong>Invalid Bundles (IB)</strong>: % of bundles with anatomically impossible paths</li>
+<li><strong>Bundle Coverage (BC)</strong>: % of ground truth covered by submission</li>
+<li><strong>Bundle Overreach (BO)</strong>: % of submission not in ground truth</li>
+<li><strong>Weighted Dice</strong>: Spatial overlap weighted by streamline density</li>
+</ol>
+<p><strong>Formula</strong> (typical):
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Score = (VB + VC - IB + BC - BO) / normalization_factor
+</code></pre></div></p>
+<h2 id="critical-file-format-warning">Critical File Format Warning<a class="headerlink" href="#critical-file-format-warning" title="Permanent link">&para;</a></h2>
+<p>From the user's note:</p>
+<blockquote>
+<p><strong>IMPORTANT</strong>: As of 08.2022, tractograms are loaded through <strong>Dipy's Stateful Tractogram</strong> functions. Previous versions applied automatic <strong>0.5 voxel shifts</strong> when loading TRK files. The new Python3 version <strong>DOES NOT do this anymore</strong>.</p>
+</blockquote>
+<h3 id="what-this-means">What This Means<a class="headerlink" href="#what-this-means" title="Permanent link">&para;</a></h3>
+<p><strong>Old behavior</strong> (pre-2022):
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># TrackVis TRK files stored in voxel corner coordinates</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># Old code automatically shifted by 0.5 to get voxel centers</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">track_coords_old</span> <span class="o">=</span> <span class="n">raw_trk_coords</span> <span class="o">+</span> <span class="mf">0.5</span>
+</code></pre></div></p>
+<p><strong>New behavior</strong> (2022+):
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Dipy StatefulTractogram expects correct space attributes</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="c1"># NO automatic shifting - relies on header information</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">track_coords_new</span> <span class="o">=</span> <span class="n">raw_trk_coords</span>  <span class="c1"># Uses header space/origin</span>
+</code></pre></div></p>
+<h3 id="impact-on-hinec-pipeline">Impact on HINEC Pipeline<a class="headerlink" href="#impact-on-hinec-pipeline" title="Permanent link">&para;</a></h3>
+<p><strong>HINEC tractography output</strong> (<code>nim_tractography_standard.m</code>):</p>
+<ul>
+<li>
+<p>Tracks stored as <strong>voxel indices</strong> (1-based MATLAB)</p>
+</li>
+<li>
+<p>Coordinates are in <strong>voxel space</strong>, not world space</p>
+</li>
+<li>
+<p>Example: <code>[47.0, 44.5, 27.9]</code> = voxel coordinates</p>
+</li>
+</ul>
+<p><strong>ISMRM ground truth</strong>:</p>
+<ul>
+<li>
+<p>TRK files with <strong>world space coordinates</strong></p>
+</li>
+<li>
+<p>Header contains voxel-to-world transform</p>
+</li>
+<li>
+<p>StatefulTractogram handles coordinate conversion</p>
+</li>
+</ul>
+<p><strong>THE PROBLEM</strong>:
+If you save HINEC tracks as TRK files without proper header setup, the scoring scripts will <strong>misinterpret coordinates</strong>:</p>
+<ul>
+<li>
+<p>HINEC voxel coords treated as world coords → misalignment</p>
+</li>
+<li>
+<p>Or: Missing 0.5 shift causes half-voxel offset</p>
+</li>
+<li>
+<p>Result: Bundle ROI filtering fails → score = 0</p>
+</li>
+</ul>
+<h2 id="how-to-use-ismrm-scoring-with-hinec">How to Use ISMRM Scoring with HINEC<a class="headerlink" href="#how-to-use-ismrm-scoring-with-hinec" title="Permanent link">&para;</a></h2>
+<h3 id="option-1-convert-hinec-tracks-to-trk-format">Option 1: Convert HINEC Tracks to TRK Format<a class="headerlink" href="#option-1-convert-hinec-tracks-to-trk-format" title="Permanent link">&para;</a></h3>
+<p><strong>Required</strong>: Set up proper TRK header with space attributes</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c">% In nim_tractography_standard.m or save function:</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="c">% Load reference NIfTI to get affine transform</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">ref_nii</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">niftiinfo</span><span class="p">(</span><span class="s">'reference.nii.gz'</span><span class="p">);</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="n">affine</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ref_nii</span><span class="p">.</span><span class="n">Transform</span><span class="p">.</span><span class="n">T</span><span class="o">'</span><span class="p">;</span><span class="w">  </span><span class="c">% 4x4 voxel-to-world matrix</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c">% Save tracks with proper header</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="c">% Use nibabel in Python:</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="c">% - Set header['voxel_to_rasmm'] = affine</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="c">% - Set space = 'rasmm' (world space)</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="c">% - Set origin = 'nifti' or 'trackvis'</span>
+</code></pre></div>
+<p><strong>Critical</strong>: Ensure voxel coordinates are transformed to world space OR header specifies voxel space correctly.</p>
+<h3 id="option-2-use-python-scoring-script">Option 2: Use Python Scoring Script<a class="headerlink" href="#option-2-use-python-scoring-script" title="Permanent link">&para;</a></h3>
+<p><strong>Create MATLAB-to-Python bridge</strong>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c">% Save HINEC tracks in compatible format</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">function</span><span class="w"> </span><span class="nf">save_for_ismrm</span><span class="p">(</span>tracks, reference_nii, output_trk<span class="p">)</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="c">% 1. Extract voxel-to-world transform</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="c">% 2. Convert track coordinates if needed</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="c">% 3. Call Python script to create TRK with proper header</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="nb">system</span><span class="p">(</span><span class="nb">sprintf</span><span class="p">(</span><span class="s">'python hinec_to_trk.py %s %s %s'</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">        </span><span class="n">tracks_mat</span><span class="p">,</span><span class="w"> </span><span class="n">reference_nii</span><span class="p">,</span><span class="w"> </span><span class="n">output_trk</span><span class="p">));</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="k">end</span>
+</code></pre></div>
+<h3 id="option-3-adapt-ismrm-scoring-for-hinec-format">Option 3: Adapt ISMRM Scoring for HINEC Format<a class="headerlink" href="#option-3-adapt-ismrm-scoring-for-hinec-format" title="Permanent link">&para;</a></h3>
+<p><strong>Modify scoring scripts</strong> to accept MATLAB <code>.mat</code> files:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># In scoring script:</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="k">if</span> <span class="n">input_file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">'.mat'</span><span class="p">):</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    <span class="c1"># Load MATLAB tracks</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>    <span class="n">mat_data</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">loadmat</span><span class="p">(</span><span class="n">input_file</span><span class="p">)</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>    <span class="n">tracks</span> <span class="o">=</span> <span class="n">mat_data</span><span class="p">[</span><span class="s1">'tracks'</span><span class="p">]</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>    <span class="c1"># Convert to StatefulTractogram with reference NIfTI</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>    <span class="n">sft</span> <span class="o">=</span> <span class="n">StatefulTractogram</span><span class="p">(</span><span class="n">tracks</span><span class="p">,</span> <span class="n">reference_nii</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'vox'</span><span class="p">)</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>    <span class="c1"># Standard TRK loading</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>    <span class="n">sft</span> <span class="o">=</span> <span class="n">load_tractogram</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span> <span class="n">reference_nii</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="testing-coordinate-alignment">Testing Coordinate Alignment<a class="headerlink" href="#testing-coordinate-alignment" title="Permanent link">&para;</a></h2>
+<p><strong>Diagnostic Script</strong> (recommended):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="ch">#!/usr/bin/env python3</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">nibabel</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nib</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">nibabel.streamlines</span><span class="w"> </span><span class="kn">import</span> <span class="n">load</span><span class="p">,</span> <span class="n">save</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="c1"># Load HINEC tracks (converted to TRK)</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="n">sft_hinec</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s1">'hinec_tracks.trk'</span><span class="p">)</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="c1"># Load ISMRM ground truth</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="n">sft_gt</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">streamlines</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">'scoring_data_Renauld2023/bundles/CA.trk'</span><span class="p">)</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="c1"># Check coordinate ranges</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="n">hinec_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sft_hinec</span><span class="o">.</span><span class="n">streamlines</span><span class="p">])</span>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="n">gt_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sft_gt</span><span class="o">.</span><span class="n">streamlines</span><span class="p">])</span>
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"HINEC coord range:"</span><span class="p">)</span>
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  X: [</span><span class="si">{</span><span class="n">hinec_coords</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">hinec_coords</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Y: [</span><span class="si">{</span><span class="n">hinec_coords</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">hinec_coords</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Z: [</span><span class="si">{</span><span class="n">hinec_coords</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">hinec_coords</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>
+<a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Ground truth coord range:"</span><span class="p">)</span>
+<a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  X: [</span><span class="si">{</span><span class="n">gt_coords</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">gt_coords</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
+<a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Y: [</span><span class="si">{</span><span class="n">gt_coords</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">gt_coords</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
+<a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Z: [</span><span class="si">{</span><span class="n">gt_coords</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">gt_coords</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
+<a id="__codelineno-10-25" name="__codelineno-10-25" href="#__codelineno-10-25"></a>
+<a id="__codelineno-10-26" name="__codelineno-10-26" href="#__codelineno-10-26"></a><span class="c1"># Check header info</span>
+<a id="__codelineno-10-27" name="__codelineno-10-27" href="#__codelineno-10-27"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">HINEC header space:"</span><span class="p">,</span> <span class="n">sft_hinec</span><span class="o">.</span><span class="n">space</span><span class="p">)</span>
+<a id="__codelineno-10-28" name="__codelineno-10-28" href="#__codelineno-10-28"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"Ground truth header space:"</span><span class="p">,</span> <span class="n">sft_gt</span><span class="o">.</span><span class="n">space</span><span class="p">)</span>
+<a id="__codelineno-10-29" name="__codelineno-10-29" href="#__codelineno-10-29"></a>
+<a id="__codelineno-10-30" name="__codelineno-10-30" href="#__codelineno-10-30"></a><span class="c1"># Visual alignment check</span>
+<a id="__codelineno-10-31" name="__codelineno-10-31" href="#__codelineno-10-31"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">To verify alignment:"</span><span class="p">)</span>
+<a id="__codelineno-10-32" name="__codelineno-10-32" href="#__codelineno-10-32"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"1. Load both tractograms in TrackVis or MI-Brain"</span><span class="p">)</span>
+<a id="__codelineno-10-33" name="__codelineno-10-33" href="#__codelineno-10-33"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"2. Overlay with T1.nii.gz from scoring_data"</span><span class="p">)</span>
+<a id="__codelineno-10-34" name="__codelineno-10-34" href="#__codelineno-10-34"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"3. Check if streamlines follow anatomical structures"</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="recommendations-for-hinec-pipeline">Recommendations for HINEC Pipeline<a class="headerlink" href="#recommendations-for-hinec-pipeline" title="Permanent link">&para;</a></h2>
+<h3 id="immediate-actions">Immediate Actions<a class="headerlink" href="#immediate-actions" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Add TRK export function</strong> with proper header setup</li>
+<li><strong>Implement coordinate space conversion</strong> (voxel → world if needed)</li>
+<li><strong>Create alignment test script</strong> (Python-based)</li>
+<li><strong>Document coordinate system</strong> in HINEC pipeline</li>
+</ol>
+<h3 id="medium-term-improvements">Medium-term Improvements<a class="headerlink" href="#medium-term-improvements" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Bundle segmentation module</strong> using ISMRM ROI configs</li>
+<li><strong>Automated scoring integration</strong> with ISMRM ground truth</li>
+<li><strong>Coordinate system validator</strong> (detect and fix misalignments)</li>
+</ol>
+<h3 id="long-term-goals">Long-term Goals<a class="headerlink" href="#long-term-goals" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>ISMRM benchmark suite</strong> for HINEC validation</li>
+<li><strong>Performance comparison</strong> against 2015 challenge submissions</li>
+<li><strong>Bundle-specific optimization</strong> based on ISMRM metrics</li>
+</ol>
+<h2 id="key-differences-hinec-vs-ismrm-format">Key Differences: HINEC vs ISMRM Format<a class="headerlink" href="#key-differences-hinec-vs-ismrm-format" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>HINEC</th>
+<th>ISMRM Ground Truth</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>File format</strong></td>
+<td><code>.mat</code> (MATLAB)</td>
+<td><code>.trk</code> (TrackVis)</td>
+</tr>
+<tr>
+<td><strong>Coordinate system</strong></td>
+<td>Voxel indices (1-based)</td>
+<td>World coordinates (RAS+)</td>
+</tr>
+<tr>
+<td><strong>Space attribute</strong></td>
+<td>Implicit (voxel)</td>
+<td>Explicit (header)</td>
+</tr>
+<tr>
+<td><strong>Track storage</strong></td>
+<td>Cell array of Nx3 matrices</td>
+<td>Binary streamline format</td>
+</tr>
+<tr>
+<td><strong>Metadata</strong></td>
+<td>nim structure</td>
+<td>TRK header (affine, dims, etc)</td>
+</tr>
+<tr>
+<td><strong>Compatibility</strong></td>
+<td>MATLAB-specific</td>
+<td>Universal (Dipy, TrackVis, DSI Studio)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="scoring-accuracy-assessment">Scoring Accuracy Assessment<a class="headerlink" href="#scoring-accuracy-assessment" title="Permanent link">&para;</a></h2>
+<p><strong>How accurate is ISMRM scoring?</strong></p>
+<h3 id="strengths">Strengths<a class="headerlink" href="#strengths" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Anatomical Ground Truth</strong>: Based on actual white matter anatomy, not synthetic</li>
+<li><strong>Multiple Metrics</strong>: Tests different aspects (coverage, validity, connections)</li>
+<li><strong>Standardized</strong>: Used in major challenge, results published</li>
+<li><strong>ROI-based</strong>: Tests anatomical knowledge, not just visual similarity</li>
+</ol>
+<h3 id="limitations">Limitations<a class="headerlink" href="#limitations" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>ROI dependency</strong>: Requires precise anatomical masks (manual work)</li>
+<li><strong>Single dataset</strong>: Based on one brain (may not generalize)</li>
+<li><strong>Coordinate sensitivity</strong>: Alignment errors cause disproportionate penalty</li>
+<li><strong>No ground truth certainty</strong>: Even "gold standard" has anatomical uncertainty</li>
+</ol>
+<h3 id="validation-against-other-methods">Validation Against Other Methods<a class="headerlink" href="#validation-against-other-methods" title="Permanent link">&para;</a></h3>
+<p>Compare with:</p>
+<ul>
+<li><strong>IronTract</strong>: Anatomical tracing (more accurate but lower throughput)</li>
+<li><strong>Tractometer</strong>: Synthetic phantoms (perfect ground truth but unrealistic)</li>
+<li><strong>Clinical consensus</strong>: Expert manual segmentation (subjective but relevant)</li>
+</ul>
+<p><strong>Recommendation</strong>: Use ISMRM as <strong>one of multiple validation methods</strong>:</p>
+<ul>
+<li>ISMRM: Anatomical accuracy</li>
+<li>IronTract: Biological validation</li>
+<li>Synthetic: Algorithm verification</li>
+<li>Clinical: Real-world applicability</li>
+</ul>
+<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<ol>
+<li>✅ Analyzed ISMRM data structure</li>
+<li>✅ Documented scoring methodology</li>
+<li>⏳ Create HINEC-to-TRK converter</li>
+<li>⏳ Test coordinate alignment</li>
+<li>⏳ Run HINEC tracks through ISMRM scoring</li>
+<li>⏳ Compare results with challenge submissions</li>
+</ol>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="http://tractometer.dinf.usherbrooke.ca/ismrm_2015_challenge/">ISMRM 2015 Tractography Challenge</a></li>
+<li><a href="https://dipy.org/documentation/latest/reference/dipy.io.stateful_tractogram/">Dipy StatefulTractogram</a></li>
+<li><a href="http://trackvis.org/docs/?subsect=fileformat">TrackVis format spec</a></li>
+<li><a href="https://github.com/scilus/ismrm_2015_tractography_challenge_scoring">Renauld 2023 update</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

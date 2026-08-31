@@ -1,0 +1,2466 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="HIgh-order NEural Connectivity — dMRI Tractography Pipeline">
+      
+      
+        <meta name="author" content="HINEC Team">
+      
+      
+      
+        <link rel="prev" href="../RUN_DIRECTORY_SYSTEM/">
+      
+      
+        <link rel="next" href="../High_Order/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Standard Tractography - HINEC Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tractographymd" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="HINEC Documentation" class="md-header__button md-logo" aria-label="HINEC Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HINEC Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Standard Tractography
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../USER_GUIDE/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Getting Started
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../PIPELINE/" class="md-tabs__link">
+          
+  
+  
+  Pipeline
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Tractography
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../YAML_CONFIG/" class="md-tabs__link">
+          
+  
+  
+  Configuration
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../VISUALIZATION_GUIDE/" class="md-tabs__link">
+          
+  
+  
+  Visualization
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../ISMRM_SCORING_ANALYSIS/" class="md-tabs__link">
+          
+  
+  
+  Validation & Benchmarks
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../API_REFERENCE/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../PRD_FastTractographySliceViewer/" class="md-tabs__link">
+          
+  
+  
+  Misc
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="HINEC Documentation" class="md-nav__button md-logo" aria-label="HINEC Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    HINEC Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../USER_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pipeline
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PIPELINE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PREPROCESSING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preprocessing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RUN_DIRECTORY_SYSTEM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run Directory System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tractography
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tractography
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tractography
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../High_Order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    High-Order Methods
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RKF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RKF45 Adaptive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RKF_Usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RKF45 Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SEEDING_STRATEGY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Seeding Strategy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hinec_tractography/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../YAML_CONFIG/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    YAML Config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CHANGELOG_YAML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visualization
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Visualization
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VISUALIZATION_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visualization Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../REGION_VISUALIZATION_EXAMPLES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Region Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DISTRIBUTED_WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distributed Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation & Benchmarks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Validation & Benchmarks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ISMRM_SCORING_ANALYSIS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISMRM Scoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VALIDATION_USAGE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../IRONTRACT_WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IronTract Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API_REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MATHEMATICAL_FOUNDATIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mathematical Foundations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SCIENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Science Background
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Misc
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Misc
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PRD_FastTractographySliceViewer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast Viewer PRD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../STRING_CHAR_FIXES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String/Char Fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../presentation_outline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Presentation Outline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="tractographymd">TRACTOGRAPHY.md<a class="headerlink" href="#tractographymd" title="Permanent link">&para;</a></h1>
+<h1 id="hinec-standard-tractography-complete-technical-documentation">HINEC Standard Tractography: Complete Technical Documentation<a class="headerlink" href="#hinec-standard-tractography-complete-technical-documentation" title="Permanent link">&para;</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>The HINEC standard tractography implementation provides deterministic fiber tracking for diffusion-weighted MRI data. It uses the primary eigenvector of the diffusion tensor to reconstruct white matter pathways through 3D space, following the direction of maximum water diffusion at each voxel.</p>
+<h2 id="workflow-architecture">Workflow Architecture<a class="headerlink" href="#workflow-architecture" title="Permanent link">&para;</a></h2>
+<h3 id="1-entry-points">1. Entry Points<a class="headerlink" href="#1-entry-points" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><code>runTractography('data.mat')</code></strong> - Simple entry point with default parameters</li>
+<li><strong><code>nim_tractography_standard(nim, options)</code></strong> - Core algorithm with custom options</li>
+<li><strong>Direct integration</strong> - Called from main HINEC pipeline after DTI processing</li>
+</ul>
+<h3 id="2-processing-pipeline">2. Processing Pipeline<a class="headerlink" href="#2-processing-pipeline" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Input Data (nim structure) 
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    ↓
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Parameter Setup &amp; Validation
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    ↓
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>Eigenvector Pre-computation (Optimization)
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    ↓
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>Seed Mask Generation
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    ↓
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>Seed Point Distribution
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    ↓
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>Bidirectional Fiber Tracking
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    ↓
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>Track Validation &amp; Filtering
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    ↓
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>Results Output &amp; Visualization
+</code></pre></div>
+<h2 id="core-algorithm-nim_tractography_standard">Core Algorithm: <code>nim_tractography_standard</code><a class="headerlink" href="#core-algorithm-nim_tractography_standard" title="Permanent link">&para;</a></h2>
+<h3 id="function-signature">Function Signature<a class="headerlink" href="#function-signature" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">function</span><span class="w"> </span>tracks<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">nim_tractography_standard</span><span class="p">(</span>data_path, options<span class="p">)</span>
+</code></pre></div>
+<p><strong>Input:</strong></p>
+<ul>
+<li><code>data_path</code>: Path to .mat file or nim structure directly</li>
+<li><code>options</code>: Configuration structure (optional)</li>
+</ul>
+<p><strong>Output:</strong></p>
+<ul>
+<li><code>tracks</code>: Cell array where each cell contains an Nx3 matrix of track coordinates</li>
+</ul>
+<h3 id="processing-stages">Processing Stages<a class="headerlink" href="#processing-stages" title="Permanent link">&para;</a></h3>
+<h4 id="stage-1-data-loading-and-validation">Stage 1: Data Loading and Validation<a class="headerlink" href="#stage-1-data-loading-and-validation" title="Permanent link">&para;</a></h4>
+<p><strong>Location</strong>: <code>nim_tractography_standard.m:59-75</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c">% Load data if path is provided</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">if</span><span class="w"> </span><span class="nb">ischar</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">isstring</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">'Loading data from %s...\n'</span><span class="p">,</span><span class="w"> </span><span class="n">data_path</span><span class="p">);</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="n">data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">load</span><span class="p">(</span><span class="n">data_path</span><span class="p">);</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="n">nim</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">data</span><span class="p">.</span><span class="n">nim</span><span class="p">;</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="k">else</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="n">nim</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">data_path</span><span class="p">;</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="k">end</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c">% Verify required fields</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isfield</span><span class="p">(</span><span class="n">nim</span><span class="p">,</span><span class="w"> </span><span class="s">'evec'</span><span class="p">)</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">'Eigenvectors not found in nim structure. Please run nim_eig() first.'</span><span class="p">);</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="k">end</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isfield</span><span class="p">(</span><span class="n">nim</span><span class="p">,</span><span class="w"> </span><span class="s">'FA'</span><span class="p">)</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">'FA values not found in nim structure. Please run nim_fa() first.'</span><span class="p">);</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="k">end</span>
+</code></pre></div>
+<p><strong>Required NIM Structure Fields:</strong></p>
+<ul>
+<li><code>nim.evec</code>: 5D array [x,y,z,component,eigenvector] - Diffusion tensor eigenvectors</li>
+<li><code>nim.FA</code>: 3D array [x,y,z] - Fractional anisotropy values</li>
+<li><code>nim.eval</code>: 3D array [x,y,z,eigenvalue] - Eigenvalues (for validation)</li>
+<li><code>nim.mask</code>: 3D array [x,y,z] - Brain mask (optional but recommended)</li>
+</ul>
+<h4 id="stage-2-performance-optimizations">Stage 2: Performance Optimizations<a class="headerlink" href="#stage-2-performance-optimizations" title="Permanent link">&para;</a></h4>
+<p><strong>Location</strong>: <code>nim_tractography_standard.m:83-106</code></p>
+<p><strong>Critical Optimization</strong>: Pre-computation of eigenvector components
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c">% Pre-compute eigenvector components for faster interpolation</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">fprintf</span><span class="p">(</span><span class="s">'Pre-computing eigenvector components...\n'</span><span class="p">);</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">nim</span><span class="p">.</span><span class="n">v1_x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">squeeze</span><span class="p">(</span><span class="n">nim</span><span class="p">.</span><span class="n">evec</span><span class="p">(:,:,:,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span><span class="w">  </span><span class="c">% X component of primary eigenvector</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">nim</span><span class="p">.</span><span class="n">v1_y</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">squeeze</span><span class="p">(</span><span class="n">nim</span><span class="p">.</span><span class="n">evec</span><span class="p">(:,:,:,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span><span class="w">  </span><span class="c">% Y component of primary eigenvector  </span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">nim</span><span class="p">.</span><span class="n">v1_z</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">squeeze</span><span class="p">(</span><span class="n">nim</span><span class="p">.</span><span class="n">evec</span><span class="p">(:,:,:,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span><span class="w">  </span><span class="c">% Z component of primary eigenvector</span>
+</code></pre></div></p>
+<p><strong>Performance Impact</strong>: Eliminates 5D array indexing during tracking, providing ~40% speedup.</p>
+<h4 id="stage-3-seed-mask-creation">Stage 3: Seed Mask Creation<a class="headerlink" href="#stage-3-seed-mask-creation" title="Permanent link">&para;</a></h4>
+<p><strong>Location</strong>: <code>nim_tractography_standard.m:108-138</code></p>
+<p><strong>Hierarchical Masking Strategy:</strong></p>
+<ol>
+<li><strong>Base FA threshold</strong>: <code>nim.FA &gt; options.fa_threshold</code></li>
+<li><strong>Brain mask priority</strong>:<ul>
+<li>Primary: <code>nim.mask</code> (from preprocessing)</li>
+<li>Fallback: <code>nim.parcellation_mask</code> (from atlas registration)</li>
+</ul>
+</li>
+<li><strong>Artifact exclusion</strong>: Remove bottom 10% of slices to avoid susceptibility artifacts</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c">% Create seed mask with hierarchical brain boundaries</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">options</span><span class="p">.</span><span class="n">seed_mask</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">nim</span><span class="p">.</span><span class="n">FA</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">options</span><span class="p">.</span><span class="n">fa_threshold</span><span class="p">;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">if</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">nim</span><span class="p">,</span><span class="w"> </span><span class="s">'mask'</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">nim</span><span class="p">.</span><span class="n">mask</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="n">nim</span><span class="p">.</span><span class="n">mask</span><span class="p">(:)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="n">brain_mask</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">nim</span><span class="p">.</span><span class="n">mask</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0.5</span><span class="p">;</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">'Using preprocessed brain mask from nim.mask\n'</span><span class="p">);</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="k">elseif</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">nim</span><span class="p">,</span><span class="w"> </span><span class="s">'parcellation_mask'</span><span class="p">)</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="n">brain_mask</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">nim</span><span class="p">.</span><span class="n">parcellation_mask</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">'Using parcellation mask as brain mask (fallback)\n'</span><span class="p">);</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="k">end</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">brain_mask</span><span class="p">)</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="c">% Exclude bottom slices to avoid inferior brain artifacts</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">    </span><span class="n">z_exclude</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">round</span><span class="p">(</span><span class="n">dims</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.1</span><span class="p">));</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">    </span><span class="n">brain_mask</span><span class="p">(:,</span><span class="w"> </span><span class="p">:,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">z_exclude</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">    </span><span class="n">options</span><span class="p">.</span><span class="n">seed_mask</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">options</span><span class="p">.</span><span class="n">seed_mask</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">brain_mask</span><span class="p">;</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="k">end</span>
+</code></pre></div>
+<h4 id="stage-4-seed-point-generation">Stage 4: Seed Point Generation<a class="headerlink" href="#stage-4-seed-point-generation" title="Permanent link">&para;</a></h4>
+<p><strong>Location</strong>: <code>nim_tractography_standard.m:278-300</code></p>
+<p><strong>Algorithm</strong>: <code>generate_seed_points_standard_optimized</code>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">function</span><span class="w"> </span>seed_points<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">generate_seed_points_standard_optimized</span><span class="p">(</span>seed_mask, density, dims<span class="p">)</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">ind2sub</span><span class="p">(</span><span class="n">dims</span><span class="p">,</span><span class="w"> </span><span class="nb">find</span><span class="p">(</span><span class="n">seed_mask</span><span class="p">));</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">base_seeds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">];</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="k">if</span><span class="w"> </span><span class="n">density</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">1</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="n">seed_points</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">base_seeds</span><span class="p">;</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="k">else</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="c">% Multiple seeds per voxel with random offset</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span><span class="n">n_total</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">base_seeds</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">density</span><span class="p">;</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">    </span><span class="n">seed_points</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">zeros</span><span class="p">(</span><span class="n">n_total</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">    </span><span class="n">idx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">size</span><span class="p">(</span><span class="n">base_seeds</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="nb">j</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">density</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">            </span><span class="n">offset</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="nb">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">0.5</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.8</span><span class="p">;</span><span class="w">  </span><span class="c">% Random offset within voxel</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">            </span><span class="n">seed_points</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">base_seeds</span><span class="p">(</span><span class="nb">i</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">offset</span><span class="p">;</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="w">            </span><span class="n">idx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">idx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="w">        </span><span class="k">end</span>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">    </span><span class="k">end</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="k">end</span>
+</code></pre></div></p>
+<p><strong>Seed Density Impact:</strong></p>
+<ul>
+<li><code>density = 1</code>: One seed per voxel center</li>
+<li><code>density = 5</code>: Five randomly distributed seeds per voxel (default)</li>
+<li>Higher density increases track count but also computation time</li>
+</ul>
+<h4 id="stage-5-bidirectional-fiber-tracking">Stage 5: Bidirectional Fiber Tracking<a class="headerlink" href="#stage-5-bidirectional-fiber-tracking" title="Permanent link">&para;</a></h4>
+<p><strong>Location</strong>: <code>nim_tractography_standard.m:176-216</code></p>
+<p><strong>Core Loop Structure:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">size</span><span class="p">(</span><span class="n">seed_points</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="n">seed</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">seed_points</span><span class="p">(</span><span class="nb">i</span><span class="p">,</span><span class="w"> </span><span class="p">:);</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="c">% Track in both directions from seed point</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">direction</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">        </span><span class="n">track</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">track_fiber_standard_optimized</span><span class="p">(</span><span class="n">nim</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="p">,</span><span class="w"> </span><span class="n">direction</span><span class="p">,</span><span class="w"> </span><span class="n">options</span><span class="p">,</span><span class="w"> </span><span class="n">cos_angle_thresh</span><span class="p">);</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">        </span><span class="c">% Validate track length</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">track</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">            </span><span class="n">track_length_mm</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="nb">vecnorm</span><span class="p">(</span><span class="nb">diff</span><span class="p">(</span><span class="n">track</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">));</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">track_length_mm</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">options</span><span class="p">.</span><span class="n">min_length</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">                </span><span class="n">track_count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">track_count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">                </span><span class="n">tracks</span><span class="p">{</span><span class="n">track_count</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">track</span><span class="p">;</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">            </span><span class="k">end</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">        </span><span class="k">end</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">    </span><span class="k">end</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="k">end</span>
+</code></pre></div></p>
+<h2 id="core-tracking-algorithm-track_fiber_standard_optimized">Core Tracking Algorithm: <code>track_fiber_standard_optimized</code><a class="headerlink" href="#core-tracking-algorithm-track_fiber_standard_optimized" title="Permanent link">&para;</a></h2>
+<h3 id="function-signature_1">Function Signature<a class="headerlink" href="#function-signature_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">function</span><span class="w"> </span><span class="p">[</span>track, step_timing<span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">track_fiber_standard_optimized</span><span class="p">(</span>nim, seed, direction, options, cos_angle_thresh<span class="p">)</span>
+</code></pre></div>
+<h3 id="tracking-steps">Tracking Steps<a class="headerlink" href="#tracking-steps" title="Permanent link">&para;</a></h3>
+<h4 id="step-1-initialization">Step 1: Initialization<a class="headerlink" href="#step-1-initialization" title="Permanent link">&para;</a></h4>
+<p><strong>Location</strong>: <code>nim_tractography_standard.m:302-324</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">track</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">seed</span><span class="p">;</span><span class="w">                    </span><span class="c">% Initialize track with seed point</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">current_pos</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">seed</span><span class="p">;</span><span class="w">              </span><span class="c">% Current tracking position</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="n">prev_direction</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[];</span><span class="w">             </span><span class="c">% Previous step direction for curvature check</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="c">% Get initial direction from diffusion tensor</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="n">initial_dir</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_initial_direction_optimized</span><span class="p">(</span><span class="n">nim</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="p">,</span><span class="w"> </span><span class="n">options</span><span class="p">);</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">initial_dir</span><span class="p">)</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="k">return</span><span class="p">;</span><span class="w">  </span><span class="c">% Cannot track from this seed</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="k">end</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="c">% Apply directional flip for bidirectional tracking</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="n">initial_dir</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">initial_dir</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">direction</span><span class="p">;</span><span class="w">  </span><span class="c">% direction is -1 or +1</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="n">prev_direction</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">initial_dir</span><span class="p">;</span>
+</code></pre></div>
+<h4 id="step-2-iterative-step-integration">Step 2: Iterative Step Integration<a class="headerlink" href="#step-2-iterative-step-integration" title="Permanent link">&para;</a></h4>
+<p><strong>Location</strong>: <code>nim_tractography_standard.m:330-390</code></p>
+<p><strong>Main Tracking Loop:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">for</span><span class="w"> </span><span class="nb">step</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">options</span><span class="p">.</span><span class="n">max_steps</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="c">% 1. Get interpolated direction at current position</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="p">[</span><span class="n">dir_vec</span><span class="p">,</span><span class="w"> </span><span class="n">fa_val</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">interpolate_direction_standard_optimized</span><span class="p">(</span><span class="n">nim</span><span class="p">,</span><span class="w"> </span><span class="n">current_pos</span><span class="p">,</span><span class="w"> </span><span class="n">options</span><span class="p">);</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="c">% 2. Termination criteria check</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">dir_vec</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">fa_val</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">options</span><span class="p">.</span><span class="n">termination_fa</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">        </span><span class="k">break</span><span class="p">;</span><span class="w">  </span><span class="c">% Stop tracking</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="k">end</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="c">% 3. Direction consistency (avoid 180° flips)</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">prev_direction</span><span class="p">)</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">dot</span><span class="p">(</span><span class="n">dir_vec</span><span class="p">,</span><span class="w"> </span><span class="n">prev_direction</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">            </span><span class="n">dir_vec</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">-</span><span class="n">dir_vec</span><span class="p">;</span><span class="w">  </span><span class="c">% Flip to maintain consistency</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">        </span><span class="k">end</span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="w">        </span><span class="c">% 4. Curvature constraint (angle threshold)</span>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">dot</span><span class="p">(</span><span class="n">dir_vec</span><span class="p">,</span><span class="w"> </span><span class="n">prev_direction</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">cos_angle_thresh</span>
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="w">            </span><span class="k">break</span><span class="p">;</span><span class="w">  </span><span class="c">% Track too curved, terminate</span>
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="w">        </span><span class="k">end</span>
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="w">    </span><span class="k">end</span>
+<a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>
+<a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a><span class="w">    </span><span class="c">% 5. Step integration - move along direction</span>
+<a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a><span class="w">    </span><span class="n">current_pos</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">current_pos</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dir_vec</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">options</span><span class="p">.</span><span class="n">step_size</span><span class="p">;</span>
+<a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>
+<a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a><span class="w">    </span><span class="c">% 6. Boundary checking</span>
+<a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="n">current_pos</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1.5</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="n">current_pos</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">dims</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">0.5</span><span class="p">)</span>
+<a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a><span class="w">        </span><span class="k">break</span><span class="p">;</span><span class="w">  </span><span class="c">% Outside image bounds</span>
+<a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a><span class="w">    </span><span class="k">end</span>
+<a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a>
+<a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a><span class="w">    </span><span class="c">% 7. Brain tissue verification (if mask available)</span>
+<a id="__codelineno-9-31" name="__codelineno-9-31" href="#__codelineno-9-31"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">has_parcellation</span>
+<a id="__codelineno-9-32" name="__codelineno-9-32" href="#__codelineno-9-32"></a><span class="w">        </span><span class="n">pos_int</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">round</span><span class="p">(</span><span class="n">current_pos</span><span class="p">);</span>
+<a id="__codelineno-9-33" name="__codelineno-9-33" href="#__codelineno-9-33"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">all</span><span class="p">(</span><span class="n">pos_int</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">all</span><span class="p">(</span><span class="n">pos_int</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">dims</span><span class="p">)</span>
+<a id="__codelineno-9-34" name="__codelineno-9-34" href="#__codelineno-9-34"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="n">nim</span><span class="p">.</span><span class="n">dilated_brain_mask</span><span class="p">(</span><span class="n">pos_int</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">pos_int</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">pos_int</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<a id="__codelineno-9-35" name="__codelineno-9-35" href="#__codelineno-9-35"></a><span class="w">                </span><span class="k">break</span><span class="p">;</span><span class="w">  </span><span class="c">% Outside brain tissue</span>
+<a id="__codelineno-9-36" name="__codelineno-9-36" href="#__codelineno-9-36"></a><span class="w">            </span><span class="k">end</span>
+<a id="__codelineno-9-37" name="__codelineno-9-37" href="#__codelineno-9-37"></a><span class="w">        </span><span class="k">end</span>
+<a id="__codelineno-9-38" name="__codelineno-9-38" href="#__codelineno-9-38"></a><span class="w">    </span><span class="k">end</span>
+<a id="__codelineno-9-39" name="__codelineno-9-39" href="#__codelineno-9-39"></a>
+<a id="__codelineno-9-40" name="__codelineno-9-40" href="#__codelineno-9-40"></a><span class="w">    </span><span class="c">% 8. Add point to track</span>
+<a id="__codelineno-9-41" name="__codelineno-9-41" href="#__codelineno-9-41"></a><span class="w">    </span><span class="n">track</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">track</span><span class="p">;</span><span class="w"> </span><span class="n">current_pos</span><span class="p">];</span>
+<a id="__codelineno-9-42" name="__codelineno-9-42" href="#__codelineno-9-42"></a><span class="w">    </span><span class="n">prev_direction</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">dir_vec</span><span class="p">;</span>
+<a id="__codelineno-9-43" name="__codelineno-9-43" href="#__codelineno-9-43"></a><span class="k">end</span>
+</code></pre></div></p>
+<h4 id="step-3-direction-interpolation">Step 3: Direction Interpolation<a class="headerlink" href="#step-3-direction-interpolation" title="Permanent link">&para;</a></h4>
+<p><strong>Location</strong>: <code>nim_tractography_standard.m:400-440</code></p>
+<p><strong>Critical Function</strong>: <code>interpolate_direction_standard_optimized</code>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">function</span><span class="w"> </span><span class="p">[</span>direction, fa_value<span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">interpolate_direction_standard_optimized</span><span class="p">(</span>nim, pos, options<span class="p">)</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="c">% Check bounds first</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">dims</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">nim</span><span class="p">.</span><span class="n">FA</span><span class="p">);</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="k">if</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="n">pos</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1.1</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="n">pos</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">dims</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">0.1</span><span class="p">)</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span><span class="n">direction</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[];</span><span class="w"> </span><span class="n">fa_value</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">    </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="k">end</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="c">% Get FA value using trilinear interpolation</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="n">fa_value</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">interp3</span><span class="p">(</span><span class="n">nim</span><span class="p">.</span><span class="n">FA</span><span class="p">,</span><span class="w"> </span><span class="n">pos</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">pos</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">pos</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="s">'linear'</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="k">if</span><span class="w"> </span><span class="n">fa_value</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">options</span><span class="p">.</span><span class="n">termination_fa</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">    </span><span class="n">direction</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[];</span><span class="w"> </span>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="w">    </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="k">end</span>
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="c">% Use pre-computed eigenvector components (KEY OPTIMIZATION)</span>
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="n">x_comp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">interp3</span><span class="p">(</span><span class="n">nim</span><span class="p">.</span><span class="n">v1_x</span><span class="p">,</span><span class="w"> </span><span class="n">pos</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">pos</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">pos</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="s">'linear'</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="n">y_comp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">interp3</span><span class="p">(</span><span class="n">nim</span><span class="p">.</span><span class="n">v1_y</span><span class="p">,</span><span class="w"> </span><span class="n">pos</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">pos</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">pos</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="s">'linear'</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="n">z_comp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">interp3</span><span class="p">(</span><span class="n">nim</span><span class="p">.</span><span class="n">v1_z</span><span class="p">,</span><span class="w"> </span><span class="n">pos</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">pos</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">pos</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="s">'linear'</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>
+<a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a><span class="n">direction</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">x_comp</span><span class="p">,</span><span class="w"> </span><span class="n">y_comp</span><span class="p">,</span><span class="w"> </span><span class="n">z_comp</span><span class="p">];</span>
+<a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a>
+<a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a><span class="c">% Normalize direction vector</span>
+<a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a><span class="n">dir_norm</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">norm</span><span class="p">(</span><span class="n">direction</span><span class="p">);</span>
+<a id="__codelineno-10-25" name="__codelineno-10-25" href="#__codelineno-10-25"></a><span class="k">if</span><span class="w"> </span><span class="n">dir_norm</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">1e-6</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">~</span><span class="nb">any</span><span class="p">(</span><span class="nb">isnan</span><span class="p">(</span><span class="n">direction</span><span class="p">))</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">~</span><span class="nb">any</span><span class="p">(</span><span class="nb">isinf</span><span class="p">(</span><span class="n">direction</span><span class="p">))</span>
+<a id="__codelineno-10-26" name="__codelineno-10-26" href="#__codelineno-10-26"></a><span class="w">    </span><span class="n">direction</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">direction</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">dir_norm</span><span class="p">;</span>
+<a id="__codelineno-10-27" name="__codelineno-10-27" href="#__codelineno-10-27"></a><span class="k">else</span>
+<a id="__codelineno-10-28" name="__codelineno-10-28" href="#__codelineno-10-28"></a><span class="w">    </span><span class="n">direction</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[];</span>
+<a id="__codelineno-10-29" name="__codelineno-10-29" href="#__codelineno-10-29"></a><span class="k">end</span>
+</code></pre></div></p>
+<p><strong>Interpolation Details:</strong></p>
+<ul>
+<li>Uses MATLAB's <code>interp3</code> with linear interpolation</li>
+<li>Pre-computed components eliminate 5D array indexing</li>
+<li>Coordinate system: MATLAB convention (Y,X,Z for interp3)</li>
+<li>Boundary padding with zeros for out-of-bounds queries</li>
+</ul>
+<h2 id="parameter-configuration">Parameter Configuration<a class="headerlink" href="#parameter-configuration" title="Permanent link">&para;</a></h2>
+<h3 id="default-parameters">Default Parameters<a class="headerlink" href="#default-parameters" title="Permanent link">&para;</a></h3>
+<p><strong>Location</strong>: <code>nim_tractography_standard.m:18-51</code> and <code>runTractography.m:32-44</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">options</span><span class="p">.</span><span class="n">seed_density</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w">           </span><span class="c">% Number of seeds per voxel</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="n">options</span><span class="p">.</span><span class="n">step_size</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">0.2</span><span class="p">;</span><span class="w">            </span><span class="c">% Step size in voxels</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="n">options</span><span class="p">.</span><span class="n">fa_threshold</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">0.25</span><span class="p">;</span><span class="w">        </span><span class="c">% FA threshold for seed placement</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="n">options</span><span class="p">.</span><span class="n">termination_fa</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">0.1</span><span class="p">;</span><span class="w">       </span><span class="c">% FA threshold for track termination</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="n">options</span><span class="p">.</span><span class="n">angle_thresh</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">25</span><span class="p">;</span><span class="w">          </span><span class="c">% Maximum turning angle in degrees</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="n">options</span><span class="p">.</span><span class="n">max_steps</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2000</span><span class="p">;</span><span class="w">           </span><span class="c">% Maximum steps per track</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="n">options</span><span class="p">.</span><span class="n">min_length</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span><span class="w">            </span><span class="c">% Minimum track length in mm</span>
+</code></pre></div>
+<h3 id="parameter-impact-analysis">Parameter Impact Analysis<a class="headerlink" href="#parameter-impact-analysis" title="Permanent link">&para;</a></h3>
+<h4 id="seed-density-seed_density">Seed Density (<code>seed_density</code>)<a class="headerlink" href="#seed-density-seed_density" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Range</strong>: 1-10 (typical)</li>
+<li><strong>Impact</strong>: Linear increase in track count and computation time</li>
+<li><strong>Quality Trade-off</strong>: Higher density provides better coverage but may introduce redundant tracks</li>
+</ul>
+<h4 id="step-size-step_size">Step Size (<code>step_size</code>)<a class="headerlink" href="#step-size-step_size" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Range</strong>: 0.1-0.5 voxels (typical)</li>
+<li><strong>Impact</strong>: Smaller steps = smoother tracks but slower computation</li>
+<li><strong>Optimal</strong>: 0.2 voxels balances smoothness and speed</li>
+</ul>
+<h4 id="fa-thresholds">FA Thresholds<a class="headerlink" href="#fa-thresholds" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong><code>fa_threshold</code> (0.25)</strong>: Higher values restrict seeding to high-anisotropy regions</li>
+<li><strong><code>termination_fa</code> (0.1)</strong>: Lower values allow tracking into gray matter transitions</li>
+</ul>
+<h4 id="angle-threshold-angle_thresh">Angle Threshold (<code>angle_thresh</code>)<a class="headerlink" href="#angle-threshold-angle_thresh" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Range</strong>: 15-60 degrees (typical)</li>
+<li><strong>Impact</strong>: Lower values create straighter, more conservative tracks</li>
+<li><strong>Biological</strong>: ~25-30 degrees matches neurobiological constraints</li>
+</ul>
+<h4 id="track-length-min_length">Track Length (<code>min_length</code>)<a class="headerlink" href="#track-length-min_length" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Purpose</strong>: Filter out spurious short tracks</li>
+<li><strong>Typical</strong>: 10-30mm based on expected fiber lengths</li>
+</ul>
+<h2 id="data-structures-and-memory-management">Data Structures and Memory Management<a class="headerlink" href="#data-structures-and-memory-management" title="Permanent link">&para;</a></h2>
+<h3 id="track-storage-format">Track Storage Format<a class="headerlink" href="#track-storage-format" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">tracks</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w">           </span><span class="c">% Cell array of tracks</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">tracks</span><span class="p">{</span><span class="nb">i</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">y1</span><span class="p">,</span><span class="w"> </span><span class="n">z1</span><span class="p">;</span><span class="w">       </span><span class="c">% Each track is Nx3 matrix</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">             </span><span class="n">x2</span><span class="p">,</span><span class="w"> </span><span class="n">y2</span><span class="p">,</span><span class="w"> </span><span class="n">z2</span><span class="p">;</span><span class="w">       </span><span class="c">% Each row is a 3D coordinate</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">             </span><span class="k">...</span><span class="c">               % Coordinates in voxel space</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">             </span><span class="n">xN</span><span class="p">,</span><span class="w"> </span><span class="n">yN</span><span class="p">,</span><span class="w"> </span><span class="n">zN</span><span class="p">];</span>
+</code></pre></div>
+<h3 id="memory-optimization-strategies">Memory Optimization Strategies<a class="headerlink" href="#memory-optimization-strategies" title="Permanent link">&para;</a></h3>
+<h4 id="pre-allocation">Pre-allocation<a class="headerlink" href="#pre-allocation" title="Permanent link">&para;</a></h4>
+<p><strong>Location</strong>: <code>nim_tractography_standard.m:161-163</code>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c">% Pre-allocate tracks array (2x seeds for bidirectional tracking)</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="n">tracks</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">seed_points</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="n">track_count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">  </span><span class="c">% Actual track counter</span>
+</code></pre></div></p>
+<h4 id="dynamic-trimming">Dynamic Trimming<a class="headerlink" href="#dynamic-trimming" title="Permanent link">&para;</a></h4>
+<p><strong>Location</strong>: <code>nim_tractography_standard.m:218-219</code>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c">% Remove unused cells to save memory</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="n">tracks</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tracks</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">track_count</span><span class="p">);</span>
+</code></pre></div></p>
+<h4 id="eigenvector-caching">Eigenvector Caching<a class="headerlink" href="#eigenvector-caching" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c">% Pre-compute components once (major memory trade-off)</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="n">nim</span><span class="p">.</span><span class="n">v1_x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">squeeze</span><span class="p">(</span><span class="n">nim</span><span class="p">.</span><span class="n">evec</span><span class="p">(:,:,:,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span><span class="w">  </span><span class="c">% Cache X components</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="n">nim</span><span class="p">.</span><span class="n">v1_y</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">squeeze</span><span class="p">(</span><span class="n">nim</span><span class="p">.</span><span class="n">evec</span><span class="p">(:,:,:,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span><span class="w">  </span><span class="c">% Cache Y components  </span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="n">nim</span><span class="p">.</span><span class="n">v1_z</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">squeeze</span><span class="p">(</span><span class="n">nim</span><span class="p">.</span><span class="n">evec</span><span class="p">(:,:,:,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span><span class="w">  </span><span class="c">% Cache Z components</span>
+</code></pre></div>
+<p><strong>Memory Impact</strong>: Increases memory usage by ~3x eigenvector size but eliminates repeated 5D indexing</p>
+<h2 id="performance-analysis-and-optimization">Performance Analysis and Optimization<a class="headerlink" href="#performance-analysis-and-optimization" title="Permanent link">&para;</a></h2>
+<h3 id="timing-diagnostics">Timing Diagnostics<a class="headerlink" href="#timing-diagnostics" title="Permanent link">&para;</a></h3>
+<p><strong>Location</strong>: <code>nim_tractography_standard.m:53-57, 222-237</code></p>
+<p>The algorithm provides comprehensive timing analysis:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="o">==</span><span class="p">=</span><span class="w"> </span><span class="n">TIMING</span><span class="w"> </span><span class="n">REPORT</span><span class="w"> </span><span class="o">==</span><span class="p">=</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="n">Total</span><span class="w"> </span><span class="s">time:</span><span class="w"> </span><span class="s">45.2</span><span class="w"> </span><span class="s">seconds</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="n">Pre</span><span class="o">-</span><span class="n">computation</span><span class="p">:</span><span class="w"> </span><span class="mf">2.1</span><span class="w"> </span><span class="nb">seconds</span><span class="w"> </span><span class="p">(</span><span class="mf">4.6</span><span class="c">%)</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="n">Seed</span><span class="w"> </span><span class="s">generation:</span><span class="w"> </span><span class="s">0.8</span><span class="w"> </span><span class="s">seconds</span><span class="w"> </span><span class="s">(1.8%)</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="n">Tracking</span><span class="p">:</span><span class="w"> </span><span class="mf">42.3</span><span class="w"> </span><span class="nb">seconds</span><span class="w"> </span><span class="p">(</span><span class="mf">93.6</span><span class="c">%)</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Interpolation</span><span class="p">:</span><span class="w"> </span><span class="mf">28.5</span><span class="w"> </span><span class="nb">seconds</span><span class="w"> </span><span class="p">(</span><span class="mf">67.4</span><span class="c">% of tracking)</span>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Boundary</span><span class="w"> </span><span class="n">checks</span><span class="p">:</span><span class="w"> </span><span class="mf">8.2</span><span class="w"> </span><span class="nb">seconds</span><span class="w"> </span><span class="p">(</span><span class="mf">19.4</span><span class="c">% of tracking)</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="n">Total</span><span class="w"> </span><span class="s">steps</span><span class="w"> </span><span class="s">processed:</span><span class="w"> </span><span class="s">125,420</span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="n">Average</span><span class="w"> </span><span class="s">steps</span><span class="w"> </span><span class="s">per</span><span class="w"> </span><span class="s">track:</span><span class="w"> </span><span class="s">45.2</span>
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="n">Steps</span><span class="w"> </span><span class="s">per</span><span class="w"> </span><span class="s">second:</span><span class="w"> </span><span class="s">2,965</span>
+</code></pre></div></p>
+<h3 id="performance-bottlenecks">Performance Bottlenecks<a class="headerlink" href="#performance-bottlenecks" title="Permanent link">&para;</a></h3>
+<h4 id="1-interpolation-operations-67-of-time">1. Interpolation Operations (67% of time)<a class="headerlink" href="#1-interpolation-operations-67-of-time" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Cause</strong>: <code>interp3</code> calls for each tracking step</li>
+<li><strong>Optimization</strong>: Pre-computed eigenvector components</li>
+<li><strong>Alternative</strong>: Could implement custom trilinear interpolation</li>
+</ul>
+<h4 id="2-boundary-checking-19-of-time">2. Boundary Checking (19% of time)<a class="headerlink" href="#2-boundary-checking-19-of-time" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Cause</strong>: Brain mask verification at each step</li>
+<li><strong>Optimization</strong>: Pre-computed dilated brain mask</li>
+<li><strong>Alternative</strong>: Less frequent boundary checks</li>
+</ul>
+<h4 id="3-memory-access-patterns">3. Memory Access Patterns<a class="headerlink" href="#3-memory-access-patterns" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Issue</strong>: Random memory access during interpolation</li>
+<li><strong>Impact</strong>: Cache misses reduce performance</li>
+<li><strong>Future</strong>: Block-based processing could improve cache efficiency</li>
+</ul>
+<h3 id="scaling-characteristics">Scaling Characteristics<a class="headerlink" href="#scaling-characteristics" title="Permanent link">&para;</a></h3>
+<p><strong>Computational Complexity</strong>: O(S × L × I)</p>
+<ul>
+<li>S = Number of seeds</li>
+<li>L = Average track length (steps)  </li>
+<li>I = Interpolation operations per step (~4)</li>
+</ul>
+<p><strong>Typical Performance</strong>: </p>
+<ul>
+<li>Dataset: 128×128×60 volume, ~10,000 seeds</li>
+<li>Processing Time: 30-60 seconds on modern hardware</li>
+<li>Track Generation Rate: 50-200 tracks/second</li>
+<li>Memory Usage: 2-8 GB peak (depending on eigenvector caching)</li>
+</ul>
+<h2 id="quality-assurance-and-validation">Quality Assurance and Validation<a class="headerlink" href="#quality-assurance-and-validation" title="Permanent link">&para;</a></h2>
+<h3 id="automatic-quality-checks">Automatic Quality Checks<a class="headerlink" href="#automatic-quality-checks" title="Permanent link">&para;</a></h3>
+<p><strong>Location</strong>: <code>nim_tractography_standard.m:94-101</code></p>
+<h4 id="eigenvector-validation">Eigenvector Validation<a class="headerlink" href="#eigenvector-validation" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c">% Verify eigenvector extraction at center voxel</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="n">center_idx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">round</span><span class="p">(</span><span class="n">dims</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="k">if</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">nim</span><span class="p">,</span><span class="w"> </span><span class="s">'eval'</span><span class="p">)</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="w">    </span><span class="n">center_eigenvals</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">squeeze</span><span class="p">(</span><span class="n">nim</span><span class="p">.</span><span class="n">eval</span><span class="p">(</span><span class="n">center_idx</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">center_idx</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">center_idx</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="p">:));</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">center_eigenvals</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">center_eigenvals</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">center_eigenvals</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">center_eigenvals</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="w">        </span><span class="nb">warning</span><span class="p">(</span><span class="s">'Primary eigenvector may not correspond to largest eigenvalue!'</span><span class="p">);</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="w">    </span><span class="k">end</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="k">end</span>
+</code></pre></div>
+<h3 id="track-statistics">Track Statistics<a class="headerlink" href="#track-statistics" title="Permanent link">&para;</a></h3>
+<p><strong>Location</strong>: <code>nim_tractography_standard.m:252-270</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="n">track_stats</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="n">track_stats</span><span class="p">.</span><span class="n">num_tracks</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">track_count</span><span class="p">;</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="n">track_stats</span><span class="p">.</span><span class="n">mean_length</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">mean</span><span class="p">(</span><span class="n">track_lengths</span><span class="p">);</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="n">track_stats</span><span class="p">.</span><span class="n">median_length</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">median</span><span class="p">(</span><span class="n">track_lengths</span><span class="p">);</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="n">track_stats</span><span class="p">.</span><span class="n">max_length</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">track_lengths</span><span class="p">);</span>
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="n">track_stats</span><span class="p">.</span><span class="n">min_length</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">min</span><span class="p">(</span><span class="n">track_lengths</span><span class="p">);</span>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="n">track_stats</span><span class="p">.</span><span class="n">total_length</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="n">track_lengths</span><span class="p">);</span>
+</code></pre></div>
+<h3 id="expected-quality-metrics">Expected Quality Metrics<a class="headerlink" href="#expected-quality-metrics" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Track Count</strong>: 1,000-10,000 (depending on seed density)</li>
+<li><strong>Mean Length</strong>: 30-80mm (varies by brain region)</li>
+<li><strong>Success Rate</strong>: 40-80% of seeds generate valid tracks</li>
+<li><strong>Spatial Coverage</strong>: Should represent major white matter tracts</li>
+</ul>
+<h2 id="output-and-visualization">Output and Visualization<a class="headerlink" href="#output-and-visualization" title="Permanent link">&para;</a></h2>
+<h3 id="automatic-output-generation">Automatic Output Generation<a class="headerlink" href="#automatic-output-generation" title="Permanent link">&para;</a></h3>
+<p><strong>Location</strong>: <code>nim_tractography_standard.m:241-274</code></p>
+<p>All results are automatically saved with timestamp:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="n">output_dir</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">'tractography_results'</span><span class="p">;</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="n">timestamp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">datestr</span><span class="p">(</span><span class="nb">now</span><span class="p">,</span><span class="w"> </span><span class="s">'yyyy-mm-dd_HH-MM-SS'</span><span class="p">);</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="n">output_file</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fullfile</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">(</span><span class="s">'tracks_%s.mat'</span><span class="p">,</span><span class="w"> </span><span class="n">timestamp</span><span class="p">));</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="nb">save</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span><span class="w"> </span><span class="s">'tracks'</span><span class="p">,</span><span class="w"> </span><span class="s">'options'</span><span class="p">,</span><span class="w"> </span><span class="s">'track_stats'</span><span class="p">,</span><span class="w"> </span><span class="s">'track_lengths'</span><span class="p">,</span><span class="w"> </span><span class="s">'dims'</span><span class="p">);</span>
+</code></pre></div></p>
+<h3 id="visualization-pipeline">Visualization Pipeline<a class="headerlink" href="#visualization-pipeline" title="Permanent link">&para;</a></h3>
+<p><strong>Entry Point</strong>: <code>runTractography.m:84-121</code></p>
+<h4 id="multi-panel-visualization">Multi-Panel Visualization<a class="headerlink" href="#multi-panel-visualization" title="Permanent link">&para;</a></h4>
+<ol>
+<li>
+<p><strong>3D Tracks with FA Background</strong> (<code>subplot(2,2,1)</code>)</p>
+<ul>
+<li>Semi-transparent FA slices as anatomical reference</li>
+<li>Direction-colored tracks (RGB = XYZ components)</li>
+<li>Limited to 800 tracks for performance</li>
+</ul>
+</li>
+<li>
+<p><strong>Direction-Colored Tracks Only</strong> (<code>subplot(2,2,2)</code>)</p>
+<ul>
+<li>Pure track visualization without anatomy</li>
+<li>Color legend: Red=L-R, Green=A-P, Blue=S-I</li>
+<li>Up to 1,500 tracks displayed</li>
+</ul>
+</li>
+<li>
+<p><strong>FA Map Cross-Section</strong> (<code>subplot(2,2,3)</code>)</p>
+<ul>
+<li>Grayscale FA map at mid-brain slice</li>
+<li>Shows tissue contrast and quality</li>
+</ul>
+</li>
+<li>
+<p><strong>Seed Point Distribution</strong> (<code>subplot(2,2,4)</code>)</p>
+<ul>
+<li>3D scatter plot of seed locations</li>
+<li>Demonstrates spatial sampling strategy</li>
+</ul>
+</li>
+</ol>
+<h3 id="advanced-visualization-visualizetractographym">Advanced Visualization: <code>visualizeTractography.m</code><a class="headerlink" href="#advanced-visualization-visualizetractographym" title="Permanent link">&para;</a></h3>
+<p>The <strong><code>visualizeTractography.m</code></strong> function is a comprehensive, unified solution for tractography visualization that consolidates all visualization functionality into one powerful interface.</p>
+<h4 id="key-features">Key Features<a class="headerlink" href="#key-features" title="Permanent link">&para;</a></h4>
+<ul>
+<li>✅ <strong>4 Visualization Modes</strong>: Whole brain, single region, grid layout, sequential</li>
+<li>✅ <strong>Advanced Track Filtering</strong>: Multiple filtering strategies with overlap control</li>
+<li>✅ <strong>Multiple Color Schemes</strong>: Direction-based, FA-based, uniform, and region-based coloring</li>
+<li>✅ <strong>Automatic Image Export</strong>: PNG, PDF, EPS, FIG formats with organized directory structure</li>
+<li>✅ <strong>Performance Optimization</strong>: Configurable track limits and smart rendering</li>
+<li>✅ <strong>Legacy Compatibility</strong>: Supports all parameters from previous functions</li>
+</ul>
+<h4 id="visualization-modes">Visualization Modes<a class="headerlink" href="#visualization-modes" title="Permanent link">&para;</a></h4>
+<h5 id="1-whole-brain-mode-modewhole">1. Whole Brain Mode (<code>mode='whole'</code>)<a class="headerlink" href="#1-whole-brain-mode-modewhole" title="Permanent link">&para;</a></h5>
+<p>Comprehensive overview of all tractography tracks with detailed analytics.</p>
+<p><strong>Usage:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c">% Basic whole brain visualization</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="n">visualizeTractography</span><span class="p">(</span><span class="s">'tracks.mat'</span><span class="p">,</span><span class="w"> </span><span class="s">'sample_parcellated.mat'</span><span class="p">)</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c">% With custom settings</span>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="n">visualizeTractography</span><span class="p">(</span><span class="s">'tracks.mat'</span><span class="p">,</span><span class="w"> </span><span class="s">'sample_parcellated.mat'</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="w">    </span><span class="s">'color_mode'</span><span class="p">,</span><span class="w"> </span><span class="s">'fa'</span><span class="p">,</span><span class="w"> </span><span class="s">'max_tracks'</span><span class="p">,</span><span class="w"> </span><span class="mi">5000</span><span class="p">,</span><span class="w"> </span><span class="s">'export_dir'</span><span class="p">,</span><span class="w"> </span><span class="s">'figures/'</span><span class="p">)</span>
+</code></pre></div></p>
+<p><strong>Output:</strong></p>
+<ul>
+<li>2x3 subplot layout with main 3D view</li>
+<li>Track length histogram</li>
+<li>Seed point distribution analysis</li>
+<li>Performance statistics</li>
+</ul>
+<h5 id="2-single-region-mode-moderegion-or-region-id">2. Single Region Mode (<code>mode='region'</code> or <code>'region', ID</code>)<a class="headerlink" href="#2-single-region-mode-moderegion-or-region-id" title="Permanent link">&para;</a></h5>
+<p>Detailed analysis of tractography for a specific brain region.</p>
+<p><strong>Usage:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c">% Single region visualization</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="n">visualizeTractography</span><span class="p">(</span><span class="s">'tracks.mat'</span><span class="p">,</span><span class="w"> </span><span class="s">'sample_parcellated.mat'</span><span class="p">,</span><span class="w"> </span><span class="s">'region'</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c">% With advanced filtering</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="n">visualizeTractography</span><span class="p">(</span><span class="s">'tracks.mat'</span><span class="p">,</span><span class="w"> </span><span class="s">'sample_parcellated.mat'</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="w">    </span><span class="s">'region'</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s">'filter_mode'</span><span class="p">,</span><span class="w"> </span><span class="s">'start_in'</span><span class="p">,</span><span class="w"> </span><span class="s">'min_overlap'</span><span class="p">,</span><span class="w"> </span><span class="mf">0.2</span><span class="p">)</span>
+</code></pre></div></p>
+<p><strong>Features:</strong></p>
+<ul>
+<li>Region-specific track filtering</li>
+<li>Region overlay visualization</li>
+<li>Multiple filtering strategies</li>
+<li>Comprehensive track analysis</li>
+</ul>
+<h5 id="3-grid-layout-mode-modegrid">3. Grid Layout Mode (<code>mode='grid'</code>)<a class="headerlink" href="#3-grid-layout-mode-modegrid" title="Permanent link">&para;</a></h5>
+<p>Overview of all brain regions in an organized grid layout.</p>
+<p><strong>Usage:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c">% Grid layout for all regions</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="n">visualizeTractography</span><span class="p">(</span><span class="s">'tracks.mat'</span><span class="p">,</span><span class="w"> </span><span class="s">'sample_parcellated.mat'</span><span class="p">,</span><span class="w"> </span><span class="s">'mode'</span><span class="p">,</span><span class="w"> </span><span class="s">'grid'</span><span class="p">)</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="c">% Custom grid configuration</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="n">visualizeTractography</span><span class="p">(</span><span class="s">'tracks.mat'</span><span class="p">,</span><span class="w"> </span><span class="s">'sample_parcellated.mat'</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="w">    </span><span class="s">'mode'</span><span class="p">,</span><span class="w"> </span><span class="s">'grid'</span><span class="p">,</span><span class="w"> </span><span class="s">'grid_cols'</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="s">'max_tracks_per_region'</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">)</span>
+</code></pre></div></p>
+<h5 id="4-sequential-mode-modesequential">4. Sequential Mode (<code>mode='sequential'</code>)<a class="headerlink" href="#4-sequential-mode-modesequential" title="Permanent link">&para;</a></h5>
+<p>Step through regions one by one with detailed visualization.</p>
+<p><strong>Usage:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c">% Sequential viewing with auto-advance</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="n">visualizeTractography</span><span class="p">(</span><span class="s">'tracks.mat'</span><span class="p">,</span><span class="w"> </span><span class="s">'sample_parcellated.mat'</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="w">    </span><span class="s">'mode'</span><span class="p">,</span><span class="w"> </span><span class="s">'sequential'</span><span class="p">,</span><span class="w"> </span><span class="s">'auto_advance'</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">,</span><span class="w"> </span><span class="s">'pause_time'</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span>
+</code></pre></div></p>
+<h4 id="configuration-options">Configuration Options<a class="headerlink" href="#configuration-options" title="Permanent link">&para;</a></h4>
+<p><strong>Display Parameters:</strong></p>
+<ul>
+<li><code>color_mode</code>: 'direction' (default), 'fa', 'uniform', 'region'</li>
+<li><code>show_axis_labels</code>: Display X/Y/Z axis labels (default: true)</li>
+<li><code>show_grid</code>: Display grid lines (default: false)</li>
+<li><code>show_title</code>: Display figure title (default: true)</li>
+<li><code>show_info</code>: Display information text (default: true)</li>
+</ul>
+<p><strong>Track Filtering:</strong></p>
+<ul>
+<li><code>filter_mode</code>: 'all', 'passing_through', 'ending_in', 'start_in', 'contained'</li>
+<li><code>min_length</code>: Minimum track length in mm (default: 10)</li>
+<li><code>max_tracks</code>: Maximum tracks to display (default: 1000)</li>
+<li><code>min_overlap</code>: Minimum region overlap fraction (default: 0.1)</li>
+</ul>
+<p><strong>Export Settings:</strong></p>
+<ul>
+<li><code>export_dir</code>: Directory for saving images (default: 'tractography_figures/')</li>
+<li><code>export_format</code>: 'png' (default), 'pdf', 'eps', 'fig'</li>
+<li><code>export_dpi</code>: Resolution for raster formats (default: 150)</li>
+</ul>
+<h3 id="slice-based-visualization-visualizetractographyslicesm">Slice-Based Visualization: <code>visualizeTractographySlices.m</code><a class="headerlink" href="#slice-based-visualization-visualizetractographyslicesm" title="Permanent link">&para;</a></h3>
+<p>An interactive 2D slice viewer for examining tractography results in orthogonal planes.</p>
+<h4 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h4>
+<p><strong>MATLAB Command Line:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c">% Basic usage - display slice at position x=64, y=64, z=32</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="n">visualizeTractographySlices</span><span class="p">(</span><span class="s">'tracks.mat'</span><span class="p">,</span><span class="w"> </span><span class="s">'sample_parcellated.mat'</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">32</span><span class="p">)</span>
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="c">% Save to PNG file</span>
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="n">visualizeTractographySlices</span><span class="p">(</span><span class="s">'tracks.mat'</span><span class="p">,</span><span class="w"> </span><span class="s">'sample_parcellated.mat'</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="w">    </span><span class="s">'save'</span><span class="p">,</span><span class="w"> </span><span class="s">'my_slice.png'</span><span class="p">)</span>
+<a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a>
+<a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a><span class="c">% With additional options</span>
+<a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a><span class="n">visualizeTractographySlices</span><span class="p">(</span><span class="s">'tracks.mat'</span><span class="p">,</span><span class="w"> </span><span class="s">'nim.mat'</span><span class="p">,</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span><span class="w"> </span><span class="mi">90</span><span class="p">,</span><span class="w"> </span><span class="mi">45</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a><span class="w">    </span><span class="s">'tolerance'</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a><span class="w">    </span><span class="s">'show_crosshairs'</span><span class="p">,</span><span class="w"> </span><span class="nb">false</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<a id="__codelineno-24-12" name="__codelineno-24-12" href="#__codelineno-24-12"></a><span class="w">    </span><span class="s">'show_anatomy'</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<a id="__codelineno-24-13" name="__codelineno-24-13" href="#__codelineno-24-13"></a><span class="w">    </span><span class="s">'color_mode'</span><span class="p">,</span><span class="w"> </span><span class="s">'direction'</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<a id="__codelineno-24-14" name="__codelineno-24-14" href="#__codelineno-24-14"></a><span class="w">    </span><span class="s">'alpha'</span><span class="p">,</span><span class="w"> </span><span class="mf">0.7</span><span class="p">)</span>
+</code></pre></div></p>
+<p><strong>Python GUI (Optional):</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># Run the interactive Python GUI</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>python<span class="w"> </span>tractography_slice_gui.py
+</code></pre></div></p>
+<h4 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h4>
+<p><strong>Required Arguments:</strong></p>
+<ul>
+<li><code>tracks_file</code>: Path to tracks .mat file</li>
+<li><code>nim_file</code>: Path to nim structure .mat file</li>
+<li><code>x</code>, <code>y</code>, <code>z</code>: Slice positions in voxel coordinates</li>
+</ul>
+<p><strong>Optional Parameters:</strong></p>
+<ul>
+<li><code>'save'</code>: Output PNG filename (if not specified, just displays)</li>
+<li><code>'tolerance'</code>: Slice thickness in voxels (default: 2)</li>
+<li><code>'show_crosshairs'</code>: Show slice intersections (default: true)</li>
+<li><code>'show_anatomy'</code>: Show FA background (default: true)</li>
+<li><code>'color_mode'</code>: 'direction' or 'uniform' (default: 'direction')</li>
+<li><code>'alpha'</code>: FA background transparency 0-1 (default: 0.6)</li>
+</ul>
+<h4 id="output-format">Output Format<a class="headerlink" href="#output-format" title="Permanent link">&para;</a></h4>
+<p>The viewer shows three orthogonal slice views:</p>
+<ol>
+<li><strong>Axial (Z)</strong>: Top-down view (X-Y plane)</li>
+<li><strong>Sagittal (X)</strong>: Side view (Y-Z plane)</li>
+<li><strong>Coronal (Y)</strong>: Front view (X-Z plane)</li>
+<li><strong>Info Panel</strong>: Track statistics and settings</li>
+</ol>
+<h3 id="track-data-structure">Track Data Structure<a class="headerlink" href="#track-data-structure" title="Permanent link">&para;</a></h3>
+<p>Each track in the <code>tracks</code> cell array represents a complete fiber pathway:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="n">track</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">y1</span><span class="p">,</span><span class="w"> </span><span class="n">z1</span><span class="p">;</span><span class="w">    </span><span class="c">% First point (start)</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="w">         </span><span class="n">x2</span><span class="p">,</span><span class="w"> </span><span class="n">y2</span><span class="p">,</span><span class="w"> </span><span class="n">z2</span><span class="p">;</span><span class="w">    </span><span class="c">% Second point</span>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="w">         </span><span class="k">...</span><span class="c">             % Intermediate points along fiber</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="w">         </span><span class="n">xN</span><span class="p">,</span><span class="w"> </span><span class="n">yN</span><span class="p">,</span><span class="w"> </span><span class="n">zN</span><span class="p">];</span><span class="w">   </span><span class="c">% Final point (end)</span>
+</code></pre></div></p>
+<p><strong>Important Notes:</strong></p>
+<ul>
+<li><strong>Not just endpoints</strong>: Each track contains the complete 3D trajectory</li>
+<li><strong>Variable length</strong>: Tracks contain 10-1000+ points depending on fiber length</li>
+<li><strong>Coordinate system</strong>: Voxel space coordinates (X, Y, Z)</li>
+</ul>
+<h3 id="performance-optimization">Performance Optimization<a class="headerlink" href="#performance-optimization" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Fast command-line execution without UI overhead</li>
+<li>Pre-computed track lookup tables for efficiency</li>
+<li>Smart rendering with configurable track limits</li>
+<li>Automatic downsampling for large datasets</li>
+</ul>
+<h2 id="integration-with-hinec-pipeline">Integration with HINEC Pipeline<a class="headerlink" href="#integration-with-hinec-pipeline" title="Permanent link">&para;</a></h2>
+<h3 id="pipeline-position">Pipeline Position<a class="headerlink" href="#pipeline-position" title="Permanent link">&para;</a></h3>
+<p>The tractography step occurs after complete DTI processing:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>Raw dMRI Data
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>    ↓
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>Preprocessing (motion correction, eddy correction, denoising)
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>    ↓
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>Diffusion Tensor Estimation (nim_dt_spd)
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>    ↓
+<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>Eigenvalue/Eigenvector Decomposition (nim_eig)
+<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>    ↓
+<a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a>Fractional Anisotropy Calculation (nim_fa)
+<a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a>    ↓
+<a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a>Brain Parcellation (nim_parcellation)
+<a id="__codelineno-27-12" name="__codelineno-27-12" href="#__codelineno-27-12"></a>    ↓
+<a id="__codelineno-27-13" name="__codelineno-27-13" href="#__codelineno-27-13"></a>**TRACTOGRAPHY** ← We are here
+</code></pre></div>
+<h3 id="data-dependencies">Data Dependencies<a class="headerlink" href="#data-dependencies" title="Permanent link">&para;</a></h3>
+<p><strong>Required Pipeline Steps:</strong></p>
+<ol>
+<li><code>nim_dt_spd</code>: Provides diffusion tensors</li>
+<li><code>nim_eig</code>: Provides eigenvectors and eigenvalues  </li>
+<li><code>nim_fa</code>: Provides anisotropy maps for seeding and termination</li>
+<li><code>nim_parcellation</code> (optional): Provides brain masks</li>
+</ol>
+<h3 id="usage-patterns">Usage Patterns<a class="headerlink" href="#usage-patterns" title="Permanent link">&para;</a></h3>
+<h4 id="simple-usage">Simple Usage<a class="headerlink" href="#simple-usage" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c">% After running main HINEC pipeline</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="n">runTractography</span><span class="p">(</span><span class="s">'sample_parcellated.mat'</span><span class="p">);</span>
+</code></pre></div>
+<h4 id="advanced-usage">Advanced Usage<a class="headerlink" href="#advanced-usage" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c">% Custom parameters</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="n">options</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="n">options</span><span class="p">.</span><span class="n">seed_density</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w">        </span><span class="c">% Denser seeding</span>
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="n">options</span><span class="p">.</span><span class="n">fa_threshold</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">0.3</span><span class="p">;</span><span class="w">       </span><span class="c">% Higher quality seeds</span>
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a><span class="n">options</span><span class="p">.</span><span class="n">angle_thresh</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span><span class="w">        </span><span class="c">% More conservative tracking</span>
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a><span class="n">options</span><span class="p">.</span><span class="n">step_size</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">0.15</span><span class="p">;</span><span class="w">         </span><span class="c">% Higher resolution</span>
+<a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>
+<a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a><span class="n">tracks</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">nim_tractography_standard</span><span class="p">(</span><span class="s">'data.mat'</span><span class="p">,</span><span class="w"> </span><span class="n">options</span><span class="p">);</span>
+</code></pre></div>
+<h4 id="programmatic-integration">Programmatic Integration<a class="headerlink" href="#programmatic-integration" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="c">% Direct integration in processing pipeline</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="n">main</span><span class="p">(</span><span class="s">'sample_data'</span><span class="p">,</span><span class="w"> </span><span class="s">'output.mat'</span><span class="p">);</span><span class="w">           </span><span class="c">% Run main pipeline</span>
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="n">tracks</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">nim_tractography_standard</span><span class="p">(</span><span class="s">'output.mat'</span><span class="p">);</span><span class="w">  </span><span class="c">% Add tractography</span>
+</code></pre></div>
+<h2 id="technical-limitations-and-considerations">Technical Limitations and Considerations<a class="headerlink" href="#technical-limitations-and-considerations" title="Permanent link">&para;</a></h2>
+<h3 id="current-limitations">Current Limitations<a class="headerlink" href="#current-limitations" title="Permanent link">&para;</a></h3>
+<h4 id="1-deterministic-only">1. Deterministic Only<a class="headerlink" href="#1-deterministic-only" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Issue</strong>: No probabilistic tracking option</li>
+<li><strong>Impact</strong>: May miss low-probability pathways</li>
+<li><strong>Future</strong>: Could add probabilistic tracking method</li>
+</ul>
+<h4 id="2-single-tensor-model">2. Single Tensor Model<a class="headerlink" href="#2-single-tensor-model" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Issue</strong>: Cannot handle crossing fibers optimally</li>
+<li><strong>Impact</strong>: May terminate prematurely at crossings</li>
+<li><strong>Alternative</strong>: High-order tractography available (<code>nim_tractography_highorder</code>)</li>
+</ul>
+<h4 id="3-isotropic-step-size">3. Isotropic Step Size<a class="headerlink" href="#3-isotropic-step-size" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Issue</strong>: Fixed step size in all directions</li>
+<li><strong>Impact</strong>: May oversample in some orientations</li>
+<li><strong>Enhancement</strong>: Adaptive step size based on local curvature</li>
+</ul>
+<h4 id="4-linear-interpolation-only">4. Linear Interpolation Only<a class="headerlink" href="#4-linear-interpolation-only" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Issue</strong>: Only supports linear interpolation</li>
+<li><strong>Impact</strong>: Potential smoothing artifacts</li>
+<li><strong>Future</strong>: Cubic interpolation option exists but unused</li>
+</ul>
+<h3 id="coordinate-system-considerations">Coordinate System Considerations<a class="headerlink" href="#coordinate-system-considerations" title="Permanent link">&para;</a></h3>
+<h4 id="matlab-vs-medical-image-conventions">MATLAB vs. Medical Image Conventions<a class="headerlink" href="#matlab-vs-medical-image-conventions" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c">% MATLAB interp3 uses (Y,X,Z) indexing</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="n">fa_value</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">interp3</span><span class="p">(</span><span class="n">nim</span><span class="p">.</span><span class="n">FA</span><span class="p">,</span><span class="w"> </span><span class="n">pos</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">pos</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">pos</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="s">'linear'</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="c">% But track coordinates stored as (X,Y,Z)  </span>
+<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="n">track</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">];</span>
+</code></pre></div>
+<h4 id="voxel-vs-world-coordinates">Voxel vs. World Coordinates<a class="headerlink" href="#voxel-vs-world-coordinates" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Internal</strong>: All processing in voxel coordinates</li>
+<li><strong>Output</strong>: Tracks remain in voxel space</li>
+<li><strong>Conversion</strong>: Would require affine transform for world coordinates</li>
+</ul>
+<h3 id="memory-scalability">Memory Scalability<a class="headerlink" href="#memory-scalability" title="Permanent link">&para;</a></h3>
+<h4 id="memory-requirements-typical-1283-volume">Memory Requirements (Typical 128³ Volume)<a class="headerlink" href="#memory-requirements-typical-1283-volume" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Base NIM Structure</strong>: ~500MB</li>
+<li><strong>Eigenvector Cache</strong>: ~1.5GB  </li>
+<li><strong>Track Storage</strong>: ~100-500MB (depends on track count)</li>
+<li><strong>Peak Usage</strong>: ~3-5GB total</li>
+</ul>
+<h4 id="large-dataset-considerations">Large Dataset Considerations<a class="headerlink" href="#large-dataset-considerations" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>4D Volumes</strong>: May exceed memory limits</li>
+<li><strong>High Resolution</strong>: Cubic scaling of memory requirements</li>
+<li><strong>Solution</strong>: Block-based processing or streaming implementation</li>
+</ul>
+<h3 id="numerical-precision">Numerical Precision<a class="headerlink" href="#numerical-precision" title="Permanent link">&para;</a></h3>
+<h4 id="floating-point-considerations">Floating Point Considerations<a class="headerlink" href="#floating-point-considerations" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="c">% Normalization threshold to avoid division by zero</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="k">if</span><span class="w"> </span><span class="n">dir_norm</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">1e-6</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">~</span><span class="nb">any</span><span class="p">(</span><span class="nb">isnan</span><span class="p">(</span><span class="n">direction</span><span class="p">))</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">~</span><span class="nb">any</span><span class="p">(</span><span class="nb">isinf</span><span class="p">(</span><span class="n">direction</span><span class="p">))</span>
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="w">    </span><span class="n">direction</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">direction</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">dir_norm</span><span class="p">;</span>
+</code></pre></div>
+<h4 id="interpolation-artifacts">Interpolation Artifacts<a class="headerlink" href="#interpolation-artifacts" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Boundary Effects</strong>: Zero-padding at volume boundaries</li>
+<li><strong>Smoothing</strong>: Linear interpolation creates artificial smoothing</li>
+<li><strong>Precision Loss</strong>: Repeated interpolation accumulates errors</li>
+</ul>
+<h2 id="future-enhancements-and-research-directions">Future Enhancements and Research Directions<a class="headerlink" href="#future-enhancements-and-research-directions" title="Permanent link">&para;</a></h2>
+<h3 id="short-term-improvements">Short-term Improvements<a class="headerlink" href="#short-term-improvements" title="Permanent link">&para;</a></h3>
+<h4 id="1-adaptive-step-size">1. Adaptive Step Size<a class="headerlink" href="#1-adaptive-step-size" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c">% Proposed: Adapt step size based on local curvature</span>
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="n">adaptive_step</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">base_step_size</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">curvature_factor</span><span class="p">);</span>
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a><span class="n">current_pos</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">current_pos</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dir_vec</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">adaptive_step</span><span class="p">;</span>
+</code></pre></div>
+<h4 id="2-probabilistic-seeding">2. Probabilistic Seeding<a class="headerlink" href="#2-probabilistic-seeding" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="c">% Proposed: FA-weighted random seeding</span>
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="n">seed_probability</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="n">nim</span><span class="p">.</span><span class="n">FA</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">min_fa</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">max_fa</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">min_fa</span><span class="p">);</span>
+<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a><span class="k">if</span><span class="w"> </span><span class="nb">rand</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">seed_probability</span><span class="p">(</span><span class="n">voxel</span><span class="p">)</span>
+<a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a><span class="w">    </span><span class="c">% Generate seed</span>
+<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a><span class="k">end</span>
+</code></pre></div>
+<h4 id="3-track-clustering">3. Track Clustering<a class="headerlink" href="#3-track-clustering" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c">% Proposed: Group similar tracks for analysis</span>
+<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a><span class="n">track_clusters</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cluster_tracks_by_similarity</span><span class="p">(</span><span class="n">tracks</span><span class="p">,</span><span class="w"> </span><span class="n">similarity_threshold</span><span class="p">);</span>
+</code></pre></div>
+<h3 id="long-term-research-directions">Long-term Research Directions<a class="headerlink" href="#long-term-research-directions" title="Permanent link">&para;</a></h3>
+<h4 id="1-multi-shell-integration">1. Multi-Shell Integration<a class="headerlink" href="#1-multi-shell-integration" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Support for multiple b-value acquisitions</li>
+<li>Advanced diffusion models (NODDI, CHARMED)</li>
+<li>Microstructural parameter mapping</li>
+</ul>
+<h4 id="2-machine-learning-integration">2. Machine Learning Integration<a class="headerlink" href="#2-machine-learning-integration" title="Permanent link">&para;</a></h4>
+<ul>
+<li>AI-guided seed placement</li>
+<li>Deep learning track classification</li>
+<li>Automated quality assessment</li>
+</ul>
+<h4 id="3-real-time-processing">3. Real-time Processing<a class="headerlink" href="#3-real-time-processing" title="Permanent link">&para;</a></h4>
+<ul>
+<li>GPU acceleration for interpolation</li>
+<li>Parallel tracking algorithms</li>
+<li>Streaming data processing</li>
+</ul>
+<h3 id="code-modularity-improvements">Code Modularity Improvements<a class="headerlink" href="#code-modularity-improvements" title="Permanent link">&para;</a></h3>
+<h4 id="proposed-refactoring">Proposed Refactoring<a class="headerlink" href="#proposed-refactoring" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="c">% Separate concerns for better maintainability</span>
+<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="n">tracker</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">TractographyTracker</span><span class="p">(</span><span class="n">nim</span><span class="p">,</span><span class="w"> </span><span class="n">options</span><span class="p">);</span>
+<a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a><span class="n">seeds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">SeedGenerator</span><span class="p">(</span><span class="n">tracker</span><span class="p">.</span><span class="n">get_seed_mask</span><span class="p">(),</span><span class="w"> </span><span class="n">options</span><span class="p">);</span>
+<a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a><span class="n">tracks</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tracker</span><span class="p">.</span><span class="n">track_all_seeds</span><span class="p">(</span><span class="n">seeds</span><span class="p">);</span>
+<a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a><span class="n">visualizer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">TrackVisualizer</span><span class="p">(</span><span class="n">tracks</span><span class="p">,</span><span class="w"> </span><span class="n">nim</span><span class="p">);</span>
+</code></pre></div>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
+<p>The HINEC standard tractography implementation provides a robust, optimized solution for deterministic fiber tracking in diffusion MRI data. Key strengths include:</p>
+<p><strong>Technical Excellence:</strong></p>
+<ul>
+<li>Comprehensive parameter validation and error handling</li>
+<li>Performance optimizations achieving 2,000+ tracking steps per second</li>
+<li>Automatic quality assessment and detailed timing diagnostics</li>
+<li>Memory-efficient track storage and processing</li>
+</ul>
+<p><strong>Usability Features:</strong></p>
+<ul>
+<li>Simple entry points for common use cases</li>
+<li>Extensive visualization capabilities  </li>
+<li>Automatic result saving with metadata</li>
+<li>Integration with the complete HINEC pipeline</li>
+</ul>
+<p><strong>Scientific Validity:</strong></p>
+<ul>
+<li>Biologically plausible tracking constraints</li>
+<li>Proper handling of anisotropy-based termination</li>
+<li>Support for brain mask boundaries</li>
+<li>Statistical validation of results</li>
+</ul>
+<p>The implementation balances computational efficiency with tracking quality, making it suitable for both research applications and clinical workflows. While focused on deterministic tracking, the modular design allows for future extensions to probabilistic methods and advanced diffusion models.</p>
+<p>For most applications, the default parameters provide excellent results. Advanced users can fine-tune parameters based on their specific research requirements and data characteristics. The comprehensive diagnostic output enables optimization for specific datasets and quality assessment of tracking results.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,3361 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="HIgh-order NEural Connectivity — dMRI Tractography Pipeline">
+      
+      
+        <meta name="author" content="HINEC Team">
+      
+      
+      
+        <link rel="prev" href="../STRING_CHAR_FIXES/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Presentation Outline - HINEC Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#hinec-high-order-neural-connectivity" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="HINEC Documentation" class="md-header__button md-logo" aria-label="HINEC Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HINEC Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Presentation Outline
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../USER_GUIDE/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Getting Started
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../PIPELINE/" class="md-tabs__link">
+          
+  
+  
+  Pipeline
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../TRACTOGRAPHY/" class="md-tabs__link">
+          
+  
+  
+  Tractography
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../YAML_CONFIG/" class="md-tabs__link">
+          
+  
+  
+  Configuration
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../VISUALIZATION_GUIDE/" class="md-tabs__link">
+          
+  
+  
+  Visualization
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../ISMRM_SCORING_ANALYSIS/" class="md-tabs__link">
+          
+  
+  
+  Validation & Benchmarks
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../API_REFERENCE/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../PRD_FastTractographySliceViewer/" class="md-tabs__link">
+          
+  
+  
+  Misc
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="HINEC Documentation" class="md-nav__button md-logo" aria-label="HINEC Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    HINEC Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../USER_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pipeline
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PIPELINE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PREPROCESSING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preprocessing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RUN_DIRECTORY_SYSTEM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run Directory System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tractography
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tractography
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TRACTOGRAPHY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tractography
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../High_Order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    High-Order Methods
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RKF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RKF45 Adaptive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RKF_Usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RKF45 Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SEEDING_STRATEGY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Seeding Strategy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hinec_tractography/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../YAML_CONFIG/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    YAML Config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CHANGELOG_YAML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visualization
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Visualization
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VISUALIZATION_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visualization Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../REGION_VISUALIZATION_EXAMPLES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Region Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DISTRIBUTED_WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distributed Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation & Benchmarks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Validation & Benchmarks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ISMRM_SCORING_ANALYSIS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISMRM Scoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VALIDATION_USAGE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../IRONTRACT_WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IronTract Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API_REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MATHEMATICAL_FOUNDATIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mathematical Foundations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SCIENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Science Background
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Misc
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Misc
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PRD_FastTractographySliceViewer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast Viewer PRD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../STRING_CHAR_FIXES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String/Char Fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Presentation Outline
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Presentation Outline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#academic-poster-presentation-outline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Academic Poster Presentation Outline
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction-motivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. INTRODUCTION &amp; MOTIVATION
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. INTRODUCTION &amp; MOTIVATION">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#background" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Background
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem Statement
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#research-objective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Research Objective
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-methodology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. METHODOLOGY
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. METHODOLOGY">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-hinec-pipeline-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A. HINEC Pipeline Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-interpolation-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B. Interpolation Strategy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="B. Interpolation Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standard-fact-baseline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standard FACT (Baseline)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hinec-with-trilinear-interpolation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HINEC with Trilinear Interpolation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hinec-with-cubic-interpolation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HINEC with Cubic Interpolation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-anatomically-constrained-tractography-act" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C. Anatomically Constrained Tractography (ACT)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="C. Anatomically Constrained Tractography (ACT)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tissue-segmentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tissue Segmentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#act-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ACT Rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#benefits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Benefits
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d-high-order-integration-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D. High-Order Integration Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="D. High-Order Integration Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rk4-4th-order-runge-kutta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RK4 (4th-order Runge-Kutta)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rkf45-runge-kutta-fehlberg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RKF45 (Runge-Kutta-Fehlberg)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparison-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison Matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-experimental-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. EXPERIMENTAL DESIGN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. EXPERIMENTAL DESIGN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dataset
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparison-groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison Groups
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Comparison Groups">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qualitative-assessment-criteria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Qualitative Assessment Criteria
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Qualitative Assessment Criteria">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#visual-inspection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visual Inspection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#target-regions-of-interest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Target Regions of Interest
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-expected-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. EXPECTED RESULTS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. EXPECTED RESULTS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-interpolation-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A. Interpolation Impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-act-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B. ACT Impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-integration-method-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C. Integration Method Impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-discussion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. DISCUSSION
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. DISCUSSION">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-innovations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Innovations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#limitations-future-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations &amp; Future Work
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-conclusions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. CONCLUSIONS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. CONCLUSIONS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expected-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expected Impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clinical-relevance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clinical Relevance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. REFERENCES
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visual-layout-suggestions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VISUAL LAYOUT SUGGESTIONS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="VISUAL LAYOUT SUGGESTIONS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#panel-organization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Panel Organization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#color-scheme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Color Scheme
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#figure-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure Recommendations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#presentation-talking-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PRESENTATION TALKING POINTS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PRESENTATION TALKING POINTS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-minute-pitch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2-Minute Pitch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-messages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Messages
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anticipated-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anticipated Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#academic-poster-presentation-outline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Academic Poster Presentation Outline
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction-motivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. INTRODUCTION &amp; MOTIVATION
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. INTRODUCTION &amp; MOTIVATION">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#background" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Background
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem Statement
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#research-objective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Research Objective
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-methodology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. METHODOLOGY
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. METHODOLOGY">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-hinec-pipeline-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A. HINEC Pipeline Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-interpolation-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B. Interpolation Strategy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="B. Interpolation Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standard-fact-baseline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standard FACT (Baseline)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hinec-with-trilinear-interpolation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HINEC with Trilinear Interpolation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hinec-with-cubic-interpolation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HINEC with Cubic Interpolation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-anatomically-constrained-tractography-act" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C. Anatomically Constrained Tractography (ACT)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="C. Anatomically Constrained Tractography (ACT)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tissue-segmentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tissue Segmentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#act-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ACT Rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#benefits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Benefits
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d-high-order-integration-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D. High-Order Integration Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="D. High-Order Integration Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rk4-4th-order-runge-kutta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RK4 (4th-order Runge-Kutta)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rkf45-runge-kutta-fehlberg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RKF45 (Runge-Kutta-Fehlberg)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparison-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison Matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-experimental-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. EXPERIMENTAL DESIGN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. EXPERIMENTAL DESIGN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dataset
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparison-groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison Groups
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Comparison Groups">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qualitative-assessment-criteria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Qualitative Assessment Criteria
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Qualitative Assessment Criteria">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#visual-inspection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visual Inspection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#target-regions-of-interest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Target Regions of Interest
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-expected-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. EXPECTED RESULTS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. EXPECTED RESULTS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-interpolation-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A. Interpolation Impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-act-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B. ACT Impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-integration-method-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C. Integration Method Impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-discussion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. DISCUSSION
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. DISCUSSION">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-innovations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Innovations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#limitations-future-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations &amp; Future Work
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-conclusions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. CONCLUSIONS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. CONCLUSIONS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expected-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expected Impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clinical-relevance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clinical Relevance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. REFERENCES
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visual-layout-suggestions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VISUAL LAYOUT SUGGESTIONS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="VISUAL LAYOUT SUGGESTIONS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#panel-organization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Panel Organization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#color-scheme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Color Scheme
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#figure-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure Recommendations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#presentation-talking-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PRESENTATION TALKING POINTS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PRESENTATION TALKING POINTS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-minute-pitch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2-Minute Pitch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-messages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Messages
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anticipated-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anticipated Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="hinec-high-order-neural-connectivity">HINEC: High-order Neural Connectivity<a class="headerlink" href="#hinec-high-order-neural-connectivity" title="Permanent link">&para;</a></h1>
+<h2 id="academic-poster-presentation-outline">Academic Poster Presentation Outline<a class="headerlink" href="#academic-poster-presentation-outline" title="Permanent link">&para;</a></h2>
+<hr />
+<h2 id="1-introduction-motivation">1. INTRODUCTION &amp; MOTIVATION<a class="headerlink" href="#1-introduction-motivation" title="Permanent link">&para;</a></h2>
+<h3 id="background">Background<a class="headerlink" href="#background" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>White matter tracts</strong>: Essential for inter-regional brain communication</li>
+<li><strong>Critical challenge</strong>: Crossing fibers create ambiguity in fiber direction</li>
+<li><strong>Current limitation</strong>: Conventional tractography confined to intracellular domain</li>
+</ul>
+<h3 id="problem-statement">Problem Statement<a class="headerlink" href="#problem-statement" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Deterministic tractography methods struggle with:<ul>
+<li>Crossing fiber regions (kissing, crossing, fanning)</li>
+<li>Discrete voxel-based tracking (FACT algorithm)</li>
+<li>Limited anatomical constraints</li>
+<li>Low-order integration methods</li>
+</ul>
+</li>
+</ul>
+<h3 id="research-objective">Research Objective<a class="headerlink" href="#research-objective" title="Permanent link">&para;</a></h3>
+<p>Develop a high-order tractography pipeline that:</p>
+<ul>
+<li>Enhances crossing fiber visualization through interpolation</li>
+<li>Incorporates anatomical constraints (ACT)</li>
+<li>Implements advanced numerical integration (RK4/RKF45)</li>
+<li>Bridges intracellular and extracellular domain information</li>
+</ul>
+<hr />
+<h2 id="2-methodology">2. METHODOLOGY<a class="headerlink" href="#2-methodology" title="Permanent link">&para;</a></h2>
+<h3 id="a-hinec-pipeline-overview">A. HINEC Pipeline Overview<a class="headerlink" href="#a-hinec-pipeline-overview" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Raw DWI Data
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    ↓
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Preprocessing (FSL-based)
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    ↓
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>Diffusion Tensor Estimation (BFGS-SPD)
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    ↓
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>Eigendecomposition (FA, eigenvectors)
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    ↓
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>Anatomical Parcellation (JHU/AAL atlas)
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    ↓
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>HINEC Tractography
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    ↓
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>Fiber Track Visualization
+</code></pre></div>
+<p><strong>Key Components</strong>:</p>
+<ol>
+<li>Interpolation methods (trilinear vs cubic)</li>
+<li>ACT-based tissue constraints</li>
+<li>High-order integration (RK4 vs RKF45)</li>
+</ol>
+<hr />
+<h3 id="b-interpolation-strategy">B. Interpolation Strategy<a class="headerlink" href="#b-interpolation-strategy" title="Permanent link">&para;</a></h3>
+<h4 id="standard-fact-baseline">Standard FACT (Baseline)<a class="headerlink" href="#standard-fact-baseline" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Method</strong>: Discrete voxel-based tracking</li>
+<li><strong>Interpolation</strong>: None (nearest neighbor)</li>
+<li><strong>Limitation</strong>: Abrupt direction changes at voxel boundaries</li>
+<li><strong>Speed</strong>: Fastest</li>
+<li><strong>Quality</strong>: Blocky, angular artifacts</li>
+</ul>
+<h4 id="hinec-with-trilinear-interpolation">HINEC with Trilinear Interpolation<a class="headerlink" href="#hinec-with-trilinear-interpolation" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Method</strong>: Linear interpolation of eigenvector components</li>
+<li><strong>Formula</strong>: <code>v(x,y,z) = Σ w_i × v_i</code> (8 neighboring voxels)</li>
+<li><strong>Advantage</strong>: Smooth direction transitions across voxel boundaries</li>
+<li><strong>Speed</strong>: Moderate</li>
+<li><strong>Quality</strong>: Smoother than FACT</li>
+</ul>
+<h4 id="hinec-with-cubic-interpolation">HINEC with Cubic Interpolation<a class="headerlink" href="#hinec-with-cubic-interpolation" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Method</strong>: Piecewise cubic convolution</li>
+<li><strong>Formula</strong>: Uses 4×4×4 neighborhood for interpolation</li>
+<li><strong>Advantage</strong>: Higher-order smoothness, reduced interpolation artifacts</li>
+<li><strong>Speed</strong>: Slower (more computation)</li>
+<li><strong>Quality</strong>: Smoothest fiber trajectories</li>
+</ul>
+<p><strong>Expected Visual Comparison</strong>:</p>
+<ul>
+<li>FACT: Angular, jagged tracks at crossing regions</li>
+<li>Trilinear: Smoother transitions, some residual artifacts</li>
+<li>Cubic: Smoothest trajectories, best crossing fiber resolution</li>
+</ul>
+<hr />
+<h3 id="c-anatomically-constrained-tractography-act">C. Anatomically Constrained Tractography (ACT)<a class="headerlink" href="#c-anatomically-constrained-tractography-act" title="Permanent link">&para;</a></h3>
+<h4 id="tissue-segmentation">Tissue Segmentation<a class="headerlink" href="#tissue-segmentation" title="Permanent link">&para;</a></h4>
+<p>From FA-based segmentation:</p>
+<ul>
+<li><strong>White Matter (WM)</strong>: High FA (&gt;0.3), primary tracking domain</li>
+<li><strong>Gray Matter (GM)</strong>: Medium FA (0.1-0.3), valid termination</li>
+<li><strong>CSF</strong>: Low FA (&lt;0.1), invalid region</li>
+</ul>
+<h4 id="act-rules">ACT Rules<a class="headerlink" href="#act-rules" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>IF current_position in WM:
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    → CONTINUE tracking
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>ELSE IF current_position in GM:
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    → TERMINATE (valid endpoint)
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>ELSE IF current_position in CSF:
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    → TERMINATE (discard track)
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>ELSE:
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    → TERMINATE (outside brain)
+</code></pre></div>
+<h4 id="benefits">Benefits<a class="headerlink" href="#benefits" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>Biologically plausible</strong>: Prevents tracks from entering CSF</li>
+<li><strong>Reduced false positives</strong>: Enforces anatomical validity</li>
+<li><strong>Improved specificity</strong>: Tracks terminate in gray matter</li>
+</ol>
+<p><strong>Expected Visual Comparison</strong>:</p>
+<ul>
+<li>Without ACT: Tracks leak into CSF, unrealistic trajectories</li>
+<li>With ACT: Clean termination at GM-WM boundaries, anatomically valid</li>
+</ul>
+<hr />
+<h3 id="d-high-order-integration-methods">D. High-Order Integration Methods<a class="headerlink" href="#d-high-order-integration-methods" title="Permanent link">&para;</a></h3>
+<h4 id="rk4-4th-order-runge-kutta">RK4 (4th-order Runge-Kutta)<a class="headerlink" href="#rk4-4th-order-runge-kutta" title="Permanent link">&para;</a></h4>
+<p><strong>Algorithm</strong>:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>k1 = direction(pos)
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>k2 = direction(pos + 0.5*h*k1)
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>k3 = direction(pos + 0.5*h*k2)
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>k4 = direction(pos + h*k3)
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>pos_new = pos + h/6 * (k1 + 2*k2 + 2*k3 + k4)
+</code></pre></div></p>
+<p><strong>Characteristics</strong>:</p>
+<ul>
+<li><strong>Order</strong>: 4th-order accuracy (error ∝ h⁵)</li>
+<li><strong>Step size</strong>: Fixed throughout tracking</li>
+<li><strong>Stability</strong>: Excellent for smooth tensor fields</li>
+<li><strong>Speed</strong>: Fast (4 evaluations per step)</li>
+<li><strong>Use case</strong>: Standard high-quality tractography</li>
+</ul>
+<h4 id="rkf45-runge-kutta-fehlberg">RKF45 (Runge-Kutta-Fehlberg)<a class="headerlink" href="#rkf45-runge-kutta-fehlberg" title="Permanent link">&para;</a></h4>
+<p><strong>Algorithm</strong>:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>k1 = direction(pos)
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>k2 = direction(pos + 1/4*h*k1)
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>k3 = direction(pos + 3/32*h*k1 + 9/32*h*k2)
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>k4 = direction(pos + 1932/2197*h*k1 - 7200/2197*h*k2 + 7296/2197*h*k3)
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>k5 = direction(pos + 439/216*h*k1 - 8*h*k2 + 3680/513*h*k3 - 845/4104*h*k4)
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>k6 = direction(pos - 8/27*h*k1 + 2*h*k2 - 3544/2565*h*k3 + 1859/4104*h*k4 - 11/40*h*k5)
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a># 4th-order estimate
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>pos_4 = pos + h * (25/216*k1 + 1408/2565*k3 + 2197/4104*k4 - 1/5*k5)
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a># 5th-order estimate
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>pos_5 = pos + h * (16/135*k1 + 6656/12825*k3 + 28561/56430*k4 - 9/50*k5 + 2/55*k6)
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a># Error estimate and adaptive step
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>error = ||pos_5 - pos_4||
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>h_new = h * min(safety * (tolerance/error)^(1/5), max_factor)
+</code></pre></div></p>
+<p><strong>Characteristics</strong>:</p>
+<ul>
+<li><strong>Order</strong>: 5th-order accuracy with 4th-order error estimate</li>
+<li><strong>Step size</strong>: Adaptive (adjusts based on local curvature)</li>
+<li><strong>Stability</strong>: Superior in challenging regions (high curvature, crossing fibers)</li>
+<li><strong>Speed</strong>: Slower (6 evaluations per step + error check)</li>
+<li><strong>Use case</strong>: Maximum accuracy, adaptive precision</li>
+</ul>
+<h4 id="comparison-matrix">Comparison Matrix<a class="headerlink" href="#comparison-matrix" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Euler (FACT)</th>
+<th>RK4</th>
+<th>RKF45</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Order</td>
+<td>1st</td>
+<td>4th</td>
+<td>5th</td>
+</tr>
+<tr>
+<td>Error</td>
+<td>O(h²)</td>
+<td>O(h⁵)</td>
+<td>O(h⁶)</td>
+</tr>
+<tr>
+<td>Step size</td>
+<td>Fixed</td>
+<td>Fixed</td>
+<td>Adaptive</td>
+</tr>
+<tr>
+<td>Evaluations/step</td>
+<td>1</td>
+<td>4</td>
+<td>6</td>
+</tr>
+<tr>
+<td>Speed</td>
+<td>Fastest</td>
+<td>Fast</td>
+<td>Moderate</td>
+</tr>
+<tr>
+<td>Accuracy</td>
+<td>Low</td>
+<td>High</td>
+<td>Highest</td>
+</tr>
+<tr>
+<td>Crossing fiber handling</td>
+<td>Poor</td>
+<td>Good</td>
+<td>Excellent</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Expected Visual Comparison</strong>:</p>
+<ul>
+<li><strong>RK4</strong>: Smooth tracks, consistent step size, minor overshoot at sharp curves</li>
+<li><strong>RKF45</strong>: Smoothest tracks, small steps at curves (adaptive), reduced overshoot</li>
+<li><strong>Difference</strong>: Most visible at crossing regions and high-curvature areas</li>
+</ul>
+<hr />
+<h2 id="3-experimental-design">3. EXPERIMENTAL DESIGN<a class="headerlink" href="#3-experimental-design" title="Permanent link">&para;</a></h2>
+<h3 id="dataset">Dataset<a class="headerlink" href="#dataset" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Source</strong>: ISMRM diffusion MRI dataset</li>
+<li><strong>Parameters</strong>: Multi-shell acquisition, b-values, gradient directions</li>
+<li><strong>Preprocessing</strong>: FSL-based (denoising, motion correction, eddy correction)</li>
+</ul>
+<h3 id="comparison-groups">Comparison Groups<a class="headerlink" href="#comparison-groups" title="Permanent link">&para;</a></h3>
+<h4 id="configuration-matrix">Configuration Matrix<a class="headerlink" href="#configuration-matrix" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Config</th>
+<th>Algorithm</th>
+<th>Interpolation</th>
+<th>Integration</th>
+<th>ACT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FACT</td>
+<td>Standard</td>
+<td>None</td>
+<td>Euler (order 1)</td>
+<td>Off</td>
+</tr>
+<tr>
+<td>HINEC-Linear-RK4</td>
+<td>HINEC</td>
+<td>Trilinear</td>
+<td>RK4 (order 4)</td>
+<td>On</td>
+</tr>
+<tr>
+<td>HINEC-Cubic-RK4</td>
+<td>HINEC</td>
+<td>Cubic</td>
+<td>RK4 (order 4)</td>
+<td>On</td>
+</tr>
+<tr>
+<td>HINEC-Cubic-RKF45</td>
+<td>HINEC</td>
+<td>Cubic</td>
+<td>RKF45 (order 5)</td>
+<td>On</td>
+</tr>
+</tbody>
+</table>
+<h3 id="qualitative-assessment-criteria">Qualitative Assessment Criteria<a class="headerlink" href="#qualitative-assessment-criteria" title="Permanent link">&para;</a></h3>
+<h4 id="visual-inspection">Visual Inspection<a class="headerlink" href="#visual-inspection" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>Track smoothness</strong>: Angular artifacts vs smooth trajectories</li>
+<li><strong>Crossing fiber resolution</strong>: Ability to resolve complex fiber crossings</li>
+<li><strong>Anatomical plausibility</strong>: CSF avoidance, GM termination</li>
+<li><strong>Track density</strong>: Coverage and completeness of known pathways</li>
+<li><strong>False positive reduction</strong>: Spurious tracks, unrealistic connections</li>
+</ol>
+<h4 id="target-regions-of-interest">Target Regions of Interest<a class="headerlink" href="#target-regions-of-interest" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Corpus callosum</strong>: Dominant fiber direction (simple geometry)</li>
+<li><strong>Corona radiata</strong>: Crossing fibers (vertical vs horizontal)</li>
+<li><strong>Superior longitudinal fasciculus</strong>: Long-range association fiber</li>
+<li><strong>Internal capsule</strong>: High anisotropy, sharp turns</li>
+<li><strong>Centrum semiovale</strong>: Triple fiber crossing region</li>
+</ul>
+<hr />
+<h2 id="4-expected-results">4. EXPECTED RESULTS<a class="headerlink" href="#4-expected-results" title="Permanent link">&para;</a></h2>
+<h3 id="a-interpolation-impact">A. Interpolation Impact<a class="headerlink" href="#a-interpolation-impact" title="Permanent link">&para;</a></h3>
+<p><strong>FACT (No Interpolation)</strong></p>
+<ul>
+<li>Visual: Blocky, staircase artifacts at voxel boundaries</li>
+<li>Crossing regions: Poor resolution, premature termination</li>
+<li>Track quality: Angular, unrealistic sharp turns</li>
+</ul>
+<p><strong>HINEC Trilinear</strong></p>
+<ul>
+<li>Visual: Smoother than FACT, minor interpolation artifacts</li>
+<li>Crossing regions: Improved resolution, better continuity</li>
+<li>Track quality: Natural-looking trajectories</li>
+</ul>
+<p><strong>HINEC Cubic</strong></p>
+<ul>
+<li>Visual: Smoothest trajectories, minimal artifacts</li>
+<li>Crossing regions: Best resolution of complex crossings</li>
+<li>Track quality: Most realistic fiber geometry</li>
+</ul>
+<h3 id="b-act-impact">B. ACT Impact<a class="headerlink" href="#b-act-impact" title="Permanent link">&para;</a></h3>
+<p><strong>Without ACT</strong></p>
+<ul>
+<li>Visual: Tracks extend into CSF (ventricles)</li>
+<li>Termination: Random endpoints, anatomically implausible</li>
+<li>Specificity: Many false positive tracks</li>
+</ul>
+<p><strong>With ACT</strong></p>
+<ul>
+<li>Visual: Clean tracks confined to WM, terminate at cortex</li>
+<li>Termination: GM-WM boundary, biologically valid</li>
+<li>Specificity: Reduced false positives, anatomically constrained</li>
+</ul>
+<h3 id="c-integration-method-impact">C. Integration Method Impact<a class="headerlink" href="#c-integration-method-impact" title="Permanent link">&para;</a></h3>
+<p><strong>RK4 (Fixed Step)</strong></p>
+<ul>
+<li>Crossing regions: Good performance, occasional overshoot</li>
+<li>Curved regions: Smooth tracking with consistent step size</li>
+<li>Computation: Moderate speed</li>
+</ul>
+<p><strong>RKF45 (Adaptive Step)</strong></p>
+<ul>
+<li>Crossing regions: Excellent performance, precise navigation</li>
+<li>Curved regions: Adaptive step size reduces overshoot</li>
+<li>Computation: Slower but more accurate</li>
+</ul>
+<p><strong>Expected Difference</strong>:</p>
+<ul>
+<li>Small steps at high-curvature regions (RKF45 advantage)</li>
+<li>Smoother tracks through crossing fiber regions</li>
+<li>Better preservation of track continuity</li>
+</ul>
+<hr />
+<h2 id="5-discussion">5. DISCUSSION<a class="headerlink" href="#5-discussion" title="Permanent link">&para;</a></h2>
+<h3 id="key-innovations">Key Innovations<a class="headerlink" href="#key-innovations" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p><strong>Multi-domain Integration</strong></p>
+<ul>
+<li>Extends beyond intracellular (tensor) domain</li>
+<li>Incorporates anatomical (tissue) constraints</li>
+<li>Bridges geometric and biological information</li>
+</ul>
+</li>
+<li>
+<p><strong>Methodological Advances</strong></p>
+<ul>
+<li>High-order interpolation reduces discretization artifacts</li>
+<li>ACT enforces biological plausibility</li>
+<li>Adaptive integration optimizes accuracy-speed tradeoff</li>
+</ul>
+</li>
+<li>
+<p><strong>Crossing Fiber Handling</strong></p>
+<ul>
+<li>Cubic interpolation smooths direction transitions</li>
+<li>RKF45 adapts to local complexity</li>
+<li>ACT prevents anatomically invalid trajectories</li>
+</ul>
+</li>
+</ol>
+<h3 id="limitations-future-work">Limitations &amp; Future Work<a class="headerlink" href="#limitations-future-work" title="Permanent link">&para;</a></h3>
+<p><strong>Current Limitations</strong>:</p>
+<ul>
+<li>DTI model assumes single fiber per voxel</li>
+<li>No quantitative validation metrics yet</li>
+<li>Computational cost increases with method complexity</li>
+</ul>
+<p><strong>Future Directions</strong>:</p>
+<ol>
+<li>Quantitative validation against known anatomy</li>
+<li>Integration with HARDI/Q-ball for true crossing resolution</li>
+<li>GPU acceleration for real-time performance</li>
+<li>Machine learning-based parameter optimization</li>
+</ol>
+<hr />
+<h2 id="6-conclusions">6. CONCLUSIONS<a class="headerlink" href="#6-conclusions" title="Permanent link">&para;</a></h2>
+<h3 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h3>
+<p>HINEC introduces three key methodological improvements:
+1. <strong>Interpolation</strong>: Cubic interpolation achieves smoother fiber trajectories
+2. <strong>ACT</strong>: Anatomical constraints ensure biological plausibility
+3. <strong>High-order integration</strong>: RKF45 provides adaptive precision</p>
+<h3 id="expected-impact">Expected Impact<a class="headerlink" href="#expected-impact" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Visual quality</strong>: Smoother, more realistic fiber reconstructions</li>
+<li><strong>Anatomical validity</strong>: Biologically plausible connectivity patterns</li>
+<li><strong>Crossing fibers</strong>: Improved resolution of complex fiber configurations</li>
+</ul>
+<h3 id="clinical-relevance">Clinical Relevance<a class="headerlink" href="#clinical-relevance" title="Permanent link">&para;</a></h3>
+<p>Enhanced tractography accuracy may improve:</p>
+<ul>
+<li>Surgical planning (tumor resection, electrode placement)</li>
+<li>Connectome mapping (network neuroscience)</li>
+<li>Disease characterization (white matter pathologies)</li>
+</ul>
+<hr />
+<h2 id="7-references">7. REFERENCES<a class="headerlink" href="#7-references" title="Permanent link">&para;</a></h2>
+<p>[1] Crossing fibers in white matter connectivity</p>
+<p>[2] Challenges in deterministic tractography</p>
+<p>[3] Limitations of single-tensor models</p>
+<p>[4] White matter atlas review and methodology</p>
+<hr />
+<h2 id="visual-layout-suggestions">VISUAL LAYOUT SUGGESTIONS<a class="headerlink" href="#visual-layout-suggestions" title="Permanent link">&para;</a></h2>
+<h3 id="panel-organization">Panel Organization<a class="headerlink" href="#panel-organization" title="Permanent link">&para;</a></h3>
+<p><strong>Top Row: Introduction</strong></p>
+<ul>
+<li>Title, authors, affiliations</li>
+<li>Background (brain connectivity diagram)</li>
+<li>Problem statement (crossing fiber illustration)</li>
+</ul>
+<p><strong>Middle Row: Methodology</strong></p>
+<ul>
+<li>HINEC pipeline flowchart</li>
+<li>Interpolation comparison (3 panels)</li>
+<li>ACT tissue segmentation diagram</li>
+<li>RK4 vs RKF45 algorithm comparison</li>
+</ul>
+<p><strong>Bottom Row: Results</strong></p>
+<ul>
+<li>Visual comparisons (4 configurations × 3 ROIs)</li>
+<li>Track overlays on FA maps</li>
+<li>3D renderings of major pathways</li>
+</ul>
+<p><strong>Footer: Conclusions &amp; References</strong></p>
+<ul>
+<li>Key findings summary</li>
+<li>Future directions</li>
+<li>References and acknowledgments</li>
+</ul>
+<h3 id="color-scheme">Color Scheme<a class="headerlink" href="#color-scheme" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>WM tracks</strong>: Use different colors per method for direct comparison</li>
+<li><strong>Tissue masks</strong>: WM (white), GM (gray), CSF (blue/cyan)</li>
+<li><strong>Backgrounds</strong>: Dark backgrounds for 3D renderings, white for diagrams</li>
+</ul>
+<h3 id="figure-recommendations">Figure Recommendations<a class="headerlink" href="#figure-recommendations" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Side-by-side track comparisons at crossing regions</li>
+<li>Zoomed insets showing interpolation differences</li>
+<li>ACT boundaries overlay on anatomical images</li>
+<li>Adaptive step size visualization for RKF45</li>
+</ol>
+<hr />
+<h2 id="presentation-talking-points">PRESENTATION TALKING POINTS<a class="headerlink" href="#presentation-talking-points" title="Permanent link">&para;</a></h2>
+<h3 id="2-minute-pitch">2-Minute Pitch<a class="headerlink" href="#2-minute-pitch" title="Permanent link">&para;</a></h3>
+<p>"HINEC addresses crossing fiber challenges in brain tractography through three innovations: cubic interpolation for smooth trajectories, anatomically constrained tracking for biological validity, and adaptive high-order integration for optimal accuracy. Visual comparisons demonstrate progressively improved track quality from standard FACT to our HINEC-Cubic-RKF45 configuration."</p>
+<h3 id="key-messages">Key Messages<a class="headerlink" href="#key-messages" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Problem</strong>: Crossing fibers are ubiquitous but poorly resolved by standard methods</li>
+<li><strong>Solution</strong>: HINEC combines geometric (interpolation), biological (ACT), and numerical (RKF45) advances</li>
+<li><strong>Impact</strong>: Qualitative improvements visible in smoother tracks and anatomically valid connectivity</li>
+</ol>
+<h3 id="anticipated-questions">Anticipated Questions<a class="headerlink" href="#anticipated-questions" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Q</strong>: Why not use HARDI for crossing fibers?</li>
+</ul>
+<p><strong>A</strong>: DTI provides computational efficiency; HINEC shows improvements are possible even within DTI framework. Future integration with HARDI is planned.</p>
+<ul>
+<li><strong>Q</strong>: What about quantitative validation?</li>
+</ul>
+<p><strong>A</strong>: Current work focuses on methodological development with qualitative assessment. Quantitative validation against phantom data and known anatomy is next step.</p>
+<ul>
+<li><strong>Q</strong>: Computational cost?</li>
+</ul>
+<p><strong>A</strong>: RKF45 with cubic interpolation is ~2x slower than FACT but provides significantly improved quality. GPU implementation planned for clinical deployment.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
